@@ -12,6 +12,7 @@ using UnityEngine.UI;
 using Vuforia;
 using System.Collections.Generic;
 using System.Linq;
+using Vuforia;
 
 public class MenuOptions : MonoBehaviour
 {
@@ -19,17 +20,26 @@ public class MenuOptions : MonoBehaviour
     CameraSettings cameraSettings;
     TrackableSettings trackableSettings;
     AudioSource audioSource;
-    Toggle deviceTrackerToggle, autofocusToggle, flashToggle, muteToggle;
+    Toggle deviceTrackerToggle, autofocusToggle, flashToggle, muteToggle, virtualIntract;
     Canvas optionsMenuCanvas;
     OptionsConfig optionsConfig;
+
+
+
     
     #endregion // PRIVATE_MEMBERS
 
     public bool IsDisplayed { get; private set; }
-   
+
+    public static GameObject UI_Intract, AR_Intract;
+
     #region MONOBEHAVIOUR_METHODS
     protected virtual void Start()
     {
+        UI_Intract = GameObject.Find("UI_Question"); UI_Intract.SetActive(true);
+
+        AR_Intract = GameObject.Find("VI_Question"); AR_Intract.SetActive(false);
+
         this.cameraSettings = FindObjectOfType<CameraSettings>();
         this.trackableSettings = FindObjectOfType<TrackableSettings>();
         this.optionsConfig = FindObjectOfType<OptionsConfig>();
@@ -39,7 +49,9 @@ public class MenuOptions : MonoBehaviour
         this.autofocusToggle = FindUISelectableWithText<Toggle>("Autofocus");
         this.flashToggle = FindUISelectableWithText<Toggle>("Flash");
         this.muteToggle = FindUISelectableWithText<Toggle>("Mute");
+        this.virtualIntract = FindUISelectableWithText<Toggle>("AR-Intract");
 
+        
         VuforiaARController.Instance.RegisterOnPauseCallback(OnPaused);
     }
     #endregion // MONOBEHAVIOUR_METHODS
@@ -87,6 +99,11 @@ public class MenuOptions : MonoBehaviour
         }
     }
 
+    public void ToggleARIntract(bool enable)
+    {
+        AR_Intract.SetActive(enable);
+    }
+    // code here
     #endregion // PUBLIC_BUTTON_METHODS
 
 

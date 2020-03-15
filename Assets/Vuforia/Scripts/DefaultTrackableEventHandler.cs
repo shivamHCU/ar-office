@@ -19,12 +19,13 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
 {
     #region PROTECTED_MEMBER_VARIABLES
 
-    public UnityEngine.Video.VideoPlayer VideoPlayer;
+    
 
     protected TrackableBehaviour mTrackableBehaviour;
     protected TrackableBehaviour.Status m_PreviousStatus;
     protected TrackableBehaviour.Status m_NewStatus;
 
+    public GameObject scanLine;
     #endregion // PROTECTED_MEMBER_VARIABLES
 
     #region UNITY_MONOBEHAVIOUR_METHODS
@@ -35,6 +36,7 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
         if (mTrackableBehaviour)
             mTrackableBehaviour.RegisterTrackableEventHandler(this);
 
+        scanLine.SetActive(true);
     }
 
     protected virtual void OnDestroy()
@@ -88,9 +90,9 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
 
     protected virtual void OnTrackingFound()
     {
-        if(VideoPlayer != null) {
-            VideoPlayer.Play();
-        }
+        
+
+        scanLine.SetActive(false);
 
         if (mTrackableBehaviour)
         {
@@ -114,11 +116,8 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
 
 
     protected virtual void OnTrackingLost()
-    {
-        if (VideoPlayer != null)
-        {
-            VideoPlayer.Stop();
-        }
+    { 
+        scanLine.SetActive(true);
 
         if (mTrackableBehaviour)
         {

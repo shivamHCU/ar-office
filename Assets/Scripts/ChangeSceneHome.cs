@@ -4,16 +4,37 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class ChangeSceneHome : MonoBehaviour
 {
+
+    public static GameObject ExitPanel, InstructionPanel;
+
+    void Start()
+    {
+        ExitPanel = GameObject.Find("ExitCanvas"); ExitPanel.SetActive(false);
+        InstructionPanel = GameObject.Find("InstructionCanvas"); InstructionPanel.SetActive(false);
+    }
+
     public void InstructionButton()
     {
-        Debug.Log("Instruction Button pressed!");
-        SceneManager.LoadScene("InstructionScene");
+
+        if (!InstructionPanel.activeSelf)
+        {
+            InstructionPanel.SetActive(true);
+            if (ExitPanel.activeSelf)
+            {
+                ExitPanel.SetActive(false);
+            }
+        }
+        else {
+            InstructionPanel.SetActive(false);
+        }
+
     }
 
     public void exitButton()
     {
         Debug.Log("Exit Button pressed!");
-        SceneManager.LoadScene("ExitScene");
+        ExitPanel.SetActive(true);
+        InstructionPanel.SetActive(false);
     }
 
 }

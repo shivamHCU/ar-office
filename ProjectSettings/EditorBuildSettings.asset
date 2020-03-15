@@ -11,10 +11,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_SceneAssets/_Scenes/CloudRecoScene.unity
     guid: e434bc354d6d54b899b4fbf77b3118a3
-  - enabled: 1
-    path: Assets/_SceneAssets/_Scenes/InstructionScene.unity
-    guid: 60cd167157f3f1e4eaab8021b7633a17
-  - enabled: 1
-    path: Assets/_SceneAssets/_Scenes/ExitScene.unity
-    guid: 9fcaa52938dd5244c98576c48c70c480
   m_configObjects: {}

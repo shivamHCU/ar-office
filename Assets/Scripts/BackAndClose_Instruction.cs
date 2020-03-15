@@ -5,10 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class BackAndClose_Instruction : MonoBehaviour
 {
+    public static GameObject InstructionPanel;
+
+    void Start()
+    {
+        InstructionPanel = GameObject.Find("InstructionCanvas");
+    }
+
     public void backButton()
     {
         Debug.Log("Back Button pressed!");
-        SceneManager.LoadScene("CloudRecoScene");
+        InstructionPanel.SetActive(false);
     }
 }
 

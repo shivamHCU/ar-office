@@ -7,6 +7,9 @@ TagManager:
   - SubmitOrNext
   - OptionYes
   - OptionNo
+  - scanLine
+  - UIOptionstext
+  - UIOptions
   layers:
   - Default
   - TransparentFX

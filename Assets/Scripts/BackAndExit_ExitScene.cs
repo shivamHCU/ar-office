@@ -5,10 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class BackAndExit_ExitScene : MonoBehaviour
 {
+    public static GameObject ExitPanel;
+
+    void Start()
+    {
+        ExitPanel = GameObject.Find("ExitCanvas");
+    }
+
     public void backButton()
     {
         Debug.Log("Back Button pressed!");
-        SceneManager.LoadScene("CloudRecoScene");
+        ExitPanel.SetActive(false);
     }
 
     public void QuitGame()

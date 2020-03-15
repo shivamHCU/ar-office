@@ -11,10 +11,14 @@ using Vuforia;
 
 public class CloudTrackableEventHandler : DefaultTrackableEventHandler
 {
+
+    public UnityEngine.Video.VideoPlayer VideoPlayer;
+
     #region PRIVATE_MEMBERS
     CloudRecoBehaviour m_CloudRecoBehaviour;
     CloudContentManager m_CloudContentManager;
-    
+    bool isVideoPlayer;
+
     #endregion // PRIVATE_MEMBERS
 
 
@@ -22,6 +26,7 @@ public class CloudTrackableEventHandler : DefaultTrackableEventHandler
     protected override void Start()
     {
         base.Start();
+        isVideoPlayer = false;
 
         m_CloudRecoBehaviour = FindObjectOfType<CloudRecoBehaviour>();
         m_CloudContentManager = FindObjectOfType<CloudContentManager>();
@@ -47,6 +52,10 @@ public class CloudTrackableEventHandler : DefaultTrackableEventHandler
     /// </summary>
     public void TargetCreated(TargetFinder.CloudRecoSearchResult targetSearchResult)
     {
+        Debug.Log("SHIVAM - " + targetSearchResult.TargetName+"\n");
+        if (targetSearchResult.TargetName == "poster-video") {
+            isVideoPlayer = true;
+        }
         m_CloudContentManager.HandleTargetFinderResult(targetSearchResult);
     }
     #endregion // PUBLIC_METHODS
@@ -59,6 +68,12 @@ public class CloudTrackableEventHandler : DefaultTrackableEventHandler
         Debug.Log("<color=blue>OnTrackingFound()</color>");
 
         base.OnTrackingFound();
+
+        if (isVideoPlayer  && VideoPlayer != null)
+        {
+            Debug.Log("SHIVAM \n");
+            VideoPlayer.Play();
+        }
 
         if (m_CloudRecoBehaviour)
         {
@@ -78,6 +93,11 @@ public class CloudTrackableEventHandler : DefaultTrackableEventHandler
         Debug.Log("<color=blue>OnTrackingLost()</color>");
 
         base.OnTrackingLost();
+
+        if (VideoPlayer != null)
+        {
+            VideoPlayer.Stop();
+        }
 
         if (m_CloudRecoBehaviour)
         {

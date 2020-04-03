@@ -70,8 +70,7 @@ public class CloudTrackableEventHandler : DefaultTrackableEventHandler
         base.OnTrackingFound();
 
         if (isVideoPlayer  && VideoPlayer != null)
-        {
-            Debug.Log("SHIVAM \n");
+        { 
             VideoPlayer.Play();
         }
 
@@ -94,7 +93,7 @@ public class CloudTrackableEventHandler : DefaultTrackableEventHandler
 
         base.OnTrackingLost();
 
-        if (VideoPlayer != null)
+        if (isVideoPlayer && VideoPlayer != null)
         {
             VideoPlayer.Stop();
         }

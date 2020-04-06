@@ -11,6 +11,7 @@ public class UIQuestion : MonoBehaviour
 {
 
     public int totalNoOfQuestions;
+    public String domain;
 
     public class Question
     {
@@ -39,13 +40,11 @@ public class UIQuestion : MonoBehaviour
     private string[] dstr;
     private string[] quesset;
     private string x;
-    string domain = "TNQT19";
-
 
     // Start is called before the first frame update
     IEnumerator Start()
     {
-
+        yield return new WaitForSeconds(2F);
         String link = "https://shivamgangwar.000webhostapp.com/quiz/";
         // Create a form object for domain and noOfQuestion to the server
         WWWForm form = new WWWForm();
@@ -78,8 +77,8 @@ public class UIQuestion : MonoBehaviour
                 quesSet[i] = new Question(quesset[1], nop, new string[4] { quesset[3], quesset[4], quesset[5], quesset[6] }, corop, quesset[8]);
             }
 
-            optionsBtn = GameObject.Find("UI_Question").GetComponentsInChildren<Button>();
-            questionText = GameObject.Find("UI_Question").GetComponentInChildren<TextMeshPro>();
+            optionsBtn = GameObject.Find("QuestSet").GetComponentsInChildren<Button>();
+            questionText = GameObject.Find("QuestSet").GetComponentInChildren<TextMeshPro>();
 
             for (int i = 0; i < quesSet[questionNo].noOfOpt; i++)
             {

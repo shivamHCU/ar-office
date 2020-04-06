@@ -5,15 +5,26 @@ using UnityEngine;
 public class Sprite_renderer : MonoBehaviour
 {
     public SpriteRenderer imageToDisplay;
-    string url = "https://media-private.canva.com/ddoPw/MAD4ZOddoPw/1/s.jpg?response-expires=Fri%2C%2003%20Apr%202020%2014%3A55%3A08%20GMT&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200403T121740Z&X-Amz-SignedHeaders=host&X-Amz-Expires=9447&X-Amz-Credential=AKIAJWF6QO3UH4PAAJ6Q%2F20200403%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=8f61eca09c8d52259cfa139ba9af9332b3a23bc4e453899beeb33ae76d048673";
+
+    public string imageUrl;
 
     void Start()
     {
-        StartCoroutine(loadSpriteImageFromUrl(url));
+        StartCoroutine(funtioncall());
     }
+
+    IEnumerator funtioncall() {
+        yield return new WaitForSeconds(2F);
+        Debug.Log("< color = red > About to start the coroutine. </ color > ");
+        StartCoroutine(loadSpriteImageFromUrl(imageUrl));
+    }
+
 
     IEnumerator loadSpriteImageFromUrl(string URL)
     {
+        Debug.Log("< color = red > Running the coroutine with url = </ color > "+ URL);
+
+
 
         WWW www = new WWW(URL);
         while (!www.isDone)

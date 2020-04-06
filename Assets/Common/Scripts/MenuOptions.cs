@@ -36,9 +36,7 @@ public class MenuOptions : MonoBehaviour
     #region MONOBEHAVIOUR_METHODS
     protected virtual void Start()
     {
-        UI_Intract = GameObject.Find("UI_Question"); UI_Intract.SetActive(true);
-
-        AR_Intract = GameObject.Find("VI_Question"); AR_Intract.SetActive(false);
+//        UI_Intract = GameObject.Find("QuestSet"); UI_Intract.SetActive(true);
 
         this.cameraSettings = FindObjectOfType<CameraSettings>();
         this.trackableSettings = FindObjectOfType<TrackableSettings>();
@@ -49,7 +47,7 @@ public class MenuOptions : MonoBehaviour
         this.autofocusToggle = FindUISelectableWithText<Toggle>("Autofocus");
         this.flashToggle = FindUISelectableWithText<Toggle>("Flash");
         this.muteToggle = FindUISelectableWithText<Toggle>("Mute");
-        this.virtualIntract = FindUISelectableWithText<Toggle>("AR-Intract");
+ //       this.virtualIntract = FindUISelectableWithText<Toggle>("AR-Intract");
 
         
         VuforiaARController.Instance.RegisterOnPauseCallback(OnPaused);
@@ -99,10 +97,13 @@ public class MenuOptions : MonoBehaviour
         }
     }
 
+    /*  
     public void ToggleARIntract(bool enable)
     {
         AR_Intract.SetActive(enable);
     }
+    */
+
     // code here
     #endregion // PUBLIC_BUTTON_METHODS
 

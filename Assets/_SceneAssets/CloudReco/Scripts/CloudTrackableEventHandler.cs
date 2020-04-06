@@ -52,7 +52,6 @@ public class CloudTrackableEventHandler : DefaultTrackableEventHandler
     /// </summary>
     public void TargetCreated(TargetFinder.CloudRecoSearchResult targetSearchResult)
     {
-        Debug.Log("SHIVAM - " + targetSearchResult.TargetName+"\n");
         if (targetSearchResult.TargetName == "poster-video") {
             isVideoPlayer = true;
         }
@@ -76,8 +75,6 @@ public class CloudTrackableEventHandler : DefaultTrackableEventHandler
 
         if (m_CloudRecoBehaviour)
         {
-            // Changing CloudRecoBehaviour.CloudRecoEnabled to false will call TargetFinder.Stop()
-            // and also call all registered ICloudRecoEventHandler.OnStateChanged() with false.
             m_CloudRecoBehaviour.CloudRecoEnabled = false;
         }
 
@@ -96,6 +93,7 @@ public class CloudTrackableEventHandler : DefaultTrackableEventHandler
         if (isVideoPlayer && VideoPlayer != null)
         {
             VideoPlayer.Stop();
+            isVideoPlayer = false;
         }
 
         if (m_CloudRecoBehaviour)

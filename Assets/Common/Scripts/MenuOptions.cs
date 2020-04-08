@@ -60,7 +60,7 @@ public class MenuOptions : MonoBehaviour
 
     public void OpenAdminPanel(bool enable)
     {
-       SceneManager.LoadScene("AdminPanel");
+       SceneManager.LoadScene("AdminPanelLogin");
     }
     public void ToggleAutofocus(bool enable)
     {

@@ -20,7 +20,7 @@ public class CloudContentManager : MonoBehaviour
     [System.Serializable]
     public class AugmentationObject
     {
-        public string targetName;
+        public int type;
         public GameObject augmentation;
     }
 
@@ -32,16 +32,17 @@ public class CloudContentManager : MonoBehaviour
     /* Types of Augumentation Types that can be encoded into metadata
      * 1. Image 
      * 2. Video
-     * 3. Quiz
+     * 3. QuesSet
      */
     int type;
     string resultUrl;
     int noOfQues;
     string quizDomain;
+    string typeAsString;
 
     readonly string[] starRatings = { "☆☆☆☆☆", "★☆☆☆☆", "★★☆☆☆", "★★★☆☆", "★★★★☆", "★★★★★" };
 
-    Dictionary<string, GameObject> Augmentations;
+    Dictionary<int, GameObject> Augmentations;
     Transform contentManagerParent;
     Transform currentAugmentation;
 
@@ -49,7 +50,7 @@ public class CloudContentManager : MonoBehaviour
 
     VideoPlayer videoHolder;
     Sprite_renderer ImageHolder;
-    UIQuestion QuestonsHolder;
+    UIQuestion QuestionsHolder;
 
     #region UNITY_MONOBEHAVIOUR_METHODS
 
@@ -62,13 +63,13 @@ public class CloudContentManager : MonoBehaviour
 
         videoHolder = GameObject.Find("VideoHolder").GetComponent<VideoPlayer>();
         ImageHolder = GameObject.Find("imageHolder").GetComponent<Sprite_renderer>();
-        QuestonsHolder = GameObject.Find("QuestSet").GetComponent<UIQuestion>();
+        QuestionsHolder = GameObject.Find("QuestSet").GetComponent<UIQuestion>();
 
-        Augmentations = new Dictionary<string, GameObject>();
+        Augmentations = new Dictionary<int, GameObject>();
 
         for (int a = 0; a < AugmentationObjects.Length; ++a)
         {
-            Augmentations.Add(AugmentationObjects[a].targetName,
+            Augmentations.Add(AugmentationObjects[a].type,
                               AugmentationObjects[a].augmentation);
         }
     }
@@ -94,34 +95,42 @@ public class CloudContentManager : MonoBehaviour
 
         Debug.Log("<color=red> meta data set to " + metadata + ".</color>");
 
-        string[] splitStrings = metadata.Split(' ');
+        if (metadata != null)
+        {
+            string[] splitStrings = metadata.Split(' ');
 
-        type = Convert.ToInt32(splitStrings[0]);
+            type = Convert.ToInt32(splitStrings[0]);
 
-        if (type == 3) {
-            noOfQues = Convert.ToInt32(splitStrings[1]);
-            quizDomain = splitStrings[2];
-            Debug.Log("<color=red> FROM METADATA : type{" + type + "}, noOfQues{" + noOfQues + "}, quizDomain{ " + quizDomain + "}.</color>");
-
-            //Setting parameter to the QuizHolder
-            
-            QuestonsHolder.totalNoOfQuestions = noOfQues;
-            QuestonsHolder.domain = quizDomain.Trim();
-        }
-        else {
-            resultUrl = splitStrings[1];
-            Debug.Log("<color=red> FROM METADATA : type{" + type + "}, link{" + resultUrl + "}.</color>");
-            //Setting parameter to the QuizHolder
-            if (type == 1)
+            if (type == 3)
             {
-                ImageHolder.imageUrl = resultUrl.Trim();
+                noOfQues = Convert.ToInt32(splitStrings[1]);
+                quizDomain = splitStrings[2];
+                Debug.Log("<color=red> FROM METADATA : type{" + type + "}, noOfQues{" + noOfQues + "}, quizDomain{ " + quizDomain + "}.</color>");
+
+                //Setting parameter to the QuizHolder
+
+                QuestionsHolder.totalNoOfQuestions = noOfQues;
+                QuestionsHolder.domain = quizDomain.Trim();
+                QuestionsHolder.StartCoroutine(QuestionsHolder.LoadQuestionFromDatabase());
             }
             else
             {
-                videoHolder.url = resultUrl.Trim();
+                resultUrl = splitStrings[1];
+                Debug.Log("<color=red> FROM METADATA : type{" + type + "}, link{" + resultUrl + "}.</color>");
+                //Setting parameter to the QuizHolder
+                if (type == 1)
+                {
+                    ImageHolder.imageUrl = resultUrl.Trim();
+
+                    Debug.Log("<color=red> Calling SpriteRenderer from could manager script  </color>");
+                    ImageHolder.StartCoroutine(ImageHolder.loadSpriteImageFromUrl(ImageHolder.imageUrl));
+                }
+                else
+                {
+                    videoHolder.url = resultUrl.Trim();
+                }
             }
         }
-
 
         cloudTargetInfo.text =
             "Name: " + targetSearchResult.TargetName +
@@ -131,7 +140,7 @@ public class CloudContentManager : MonoBehaviour
 
         
 
-        GameObject augmentation = GetValuefromDictionary(Augmentations, targetSearchResult.TargetName);
+        GameObject augmentation = GetValuefromDictionary(Augmentations, type);
 
         if (augmentation != null)
         {
@@ -174,27 +183,12 @@ public class CloudContentManager : MonoBehaviour
         }
     }
 
-    private void function3(string resultUrl)
-    {
-        
-    }
-
-    private void function2(string resultUrl)
-    {
-        throw new NotImplementedException();
-    }
-
-    private void function1(int noOfQues, string quizDomain)
-    {
-        
-    }
-
     #endregion // PUBLIC_METHODS
 
 
     #region // PRIVATE_METHODS
 
-    GameObject GetValuefromDictionary(Dictionary<string, GameObject> dictionary, string key)
+    GameObject GetValuefromDictionary(Dictionary<int, GameObject> dictionary, int key)
     {
         Debug.Log("<color=blue>GetValuefromDictionary() called.</color>");
         if (dictionary == null)

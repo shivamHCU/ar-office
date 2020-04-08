@@ -42,9 +42,14 @@ public class UIQuestion : MonoBehaviour
     private string x;
 
     // Start is called before the first frame update
-    IEnumerator Start()
+    private void Start()
     {
-        yield return new WaitForSeconds(2F);
+        optionsBtn = GameObject.Find("QuestSet").GetComponentsInChildren<Button>();
+        questionText = GameObject.Find("QuestSet").GetComponentInChildren<TextMeshPro>();
+    }
+
+
+    public IEnumerator LoadQuestionFromDatabase() {
         String link = "https://shivamgangwar.000webhostapp.com/quiz/";
         // Create a form object for domain and noOfQuestion to the server
         WWWForm form = new WWWForm();
@@ -77,8 +82,11 @@ public class UIQuestion : MonoBehaviour
                 quesSet[i] = new Question(quesset[1], nop, new string[4] { quesset[3], quesset[4], quesset[5], quesset[6] }, corop, quesset[8]);
             }
 
+           
+            /*
             optionsBtn = GameObject.Find("QuestSet").GetComponentsInChildren<Button>();
             questionText = GameObject.Find("QuestSet").GetComponentInChildren<TextMeshPro>();
+            */        
 
             for (int i = 0; i < quesSet[questionNo].noOfOpt; i++)
             {
@@ -90,56 +98,10 @@ public class UIQuestion : MonoBehaviour
                 optionsBtn[2].GetComponentInChildren<Text>().text = "";
                 optionsBtn[3].GetComponentInChildren<Text>().text = "";
             }
-
+            
             //loading the first question
             questionText.text = quesSet[questionNo].ques;
         }
-
-
-
-        /*
-            WebClient client = new WebClient();
-            String link = "https://shivamgangwar.000webhostapp.com/quiz/?"+"domain="+domain+"&noOfQues"+totalNoOfQuestions;
-            string downloadString = client.DownloadString(link);
-            yield return downloadString;
-
-            dstr = downloadString.Split(';');
-            Debug.Log(dstr);
-
-            quesSet = new Question[totalNoOfQuestions];
-            questionNo = 0;
-            for (int i = 0; i < totalNoOfQuestions; i++)
-            {
-                x = dstr[i];
-                quesset = x.Split(',');
-                int nop = Convert.ToInt32(quesset[2][0] - '0');
-                int corop = Convert.ToInt32(quesset[7][0] - '0');
-                quesSet[i] = new Question(quesset[1], nop, new string[4] { quesset[3], quesset[4], quesset[5], quesset[6] }, corop, quesset[8]);
-            }
-        
-            optionsBtn = GameObject.Find("UI_Question").GetComponentsInChildren<Button>();
-            questionText = GameObject.Find("UI_Question").GetComponentInChildren<TextMeshPro>();
-
-            for (int i = 0; i < quesSet[questionNo].noOfOpt; i++)
-            {
-                optionsBtn[i].GetComponentInChildren<Text>().text = quesSet[questionNo].options[i];
-            }
-
-            if (quesSet[questionNo].noOfOpt == 2) {
-            
-            }
-
-            //loading the first question
-            questionText.text = quesSet[questionNo].ques;
-        
-        */
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //updateing the question in each frame
     }
 
     public void validateAndUpdateScore(Button button)

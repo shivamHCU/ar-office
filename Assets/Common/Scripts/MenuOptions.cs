@@ -12,7 +12,6 @@ using UnityEngine.UI;
 using Vuforia;
 using System.Collections.Generic;
 using System.Linq;
-using Vuforia;
 
 public class MenuOptions : MonoBehaviour
 {

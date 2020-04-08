@@ -52,8 +52,14 @@ public class CloudTrackableEventHandler : DefaultTrackableEventHandler
     /// </summary>
     public void TargetCreated(TargetFinder.CloudRecoSearchResult targetSearchResult)
     {
-        if (targetSearchResult.TargetName == "poster-video") {
-            isVideoPlayer = true;
+        string metadata = targetSearchResult.MetaData;
+        if (metadata != null)
+        {
+            string[] splitStrings = metadata.Split(' ');
+            if (splitStrings[0].Equals("2"))
+            {
+                isVideoPlayer = true;
+            }
         }
         m_CloudContentManager.HandleTargetFinderResult(targetSearchResult);
     }

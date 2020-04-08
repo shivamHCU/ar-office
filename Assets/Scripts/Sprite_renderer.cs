@@ -8,24 +8,25 @@ public class Sprite_renderer : MonoBehaviour
 
     public string imageUrl;
 
+    /*
     void Start()
     {
         StartCoroutine(funtioncall());
     }
+    
 
     IEnumerator funtioncall() {
         yield return new WaitForSeconds(2F);
         Debug.Log("< color = red > About to start the coroutine. </ color > ");
         StartCoroutine(loadSpriteImageFromUrl(imageUrl));
     }
+    */
 
 
-    IEnumerator loadSpriteImageFromUrl(string URL)
+    public IEnumerator loadSpriteImageFromUrl(string URL)
     {
         Debug.Log("< color = red > Running the coroutine with url = </ color > "+ URL);
-
-
-
+        
         WWW www = new WWW(URL);
         while (!www.isDone)
         {

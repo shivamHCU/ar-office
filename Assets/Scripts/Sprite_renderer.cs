@@ -26,7 +26,7 @@ public class Sprite_renderer : MonoBehaviour
     public IEnumerator loadSpriteImageFromUrl(string URL)
     {
         Debug.Log("< color = red > Running the coroutine with url = </ color > "+ URL);
-        
+
         WWW www = new WWW(URL);
         while (!www.isDone)
         {
@@ -44,8 +44,10 @@ public class Sprite_renderer : MonoBehaviour
             Texture2D texture = new Texture2D(1, 1);
             www.LoadImageIntoTexture(texture);
 
+            float x = (texture.height/635.0f) * 100.0f;
+
             Sprite sprite = Sprite.Create(texture,
-                new Rect(-0.0016f, -0.0013f, texture.width, texture.height), new Vector2(0.5f,0.5f ));
+                new Rect(-0.0016f, -0.0013f, texture.width, texture.height), new Vector2(0.5f,0.5f ), x);
 
 
             imageToDisplay.sprite = sprite;

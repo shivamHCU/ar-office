@@ -51,7 +51,6 @@ public class VirtualButtonScript : MonoBehaviour, IVirtualButtonEventHandler
     public TextMeshPro NextButtonText;
 
     private int questionNo;
-    private int score;
 
     // Start is called before the first frame update
     void Start()
@@ -82,7 +81,6 @@ public class VirtualButtonScript : MonoBehaviour, IVirtualButtonEventHandler
         }
 
         questionNo = 0;
-        score = 0;
         quesSet = new Question[5];
 
         /*Questions static objects for now later will be replaced with input from DB)*/

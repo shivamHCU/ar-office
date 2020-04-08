@@ -62,11 +62,6 @@
   <ItemGroup>
     <Compile Include="Assets\_SceneAssets\CloudReco\Scripts\CloudContentManager.cs" />
     <Compile Include="Assets\_SceneAssets\CloudReco\Scripts\CloudTrackableEventHandler.cs" />
-    <Compile Include="Assets\_SceneAssets\ImageTargets\Scripts\ModelSwap.cs" />
-    <Compile Include="Assets\_SceneAssets\ImageTargets\Scripts\VideoController.cs" />
-    <Compile Include="Assets\_SceneAssets\ImageTargets\Scripts\VideoTrackableEventHandler.cs" />
-    <Compile Include="Assets\_SceneAssets\VirtualButtons\Scripts\VirtualButtonEventHandler.cs" />
-    <Compile Include="Assets\Common\Scripts\AboutManager.cs" />
     <Compile Include="Assets\Common\Scripts\AboutScreenInfo.cs" />
     <Compile Include="Assets\Common\Scripts\AmbientLightManager.cs" />
     <Compile Include="Assets\Common\Scripts\AsyncSceneLoader.cs" />
@@ -78,7 +73,6 @@
     <Compile Include="Assets\Common\Scripts\HyperlinkHandler.cs" />
     <Compile Include="Assets\Common\Scripts\InitErrorHandler.cs" />
     <Compile Include="Assets\Common\Scripts\LoadingScreen.cs" />
-    <Compile Include="Assets\Common\Scripts\MenuAnimator.cs" />
     <Compile Include="Assets\Common\Scripts\MenuOptions.cs" />
     <Compile Include="Assets\Common\Scripts\MessageBox.cs" />
     <Compile Include="Assets\Common\Scripts\NavigationHandler.cs" />

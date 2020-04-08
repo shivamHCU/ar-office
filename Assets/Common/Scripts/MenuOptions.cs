@@ -12,6 +12,8 @@ using UnityEngine.UI;
 using Vuforia;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.SceneManagement;
+
 
 public class MenuOptions : MonoBehaviour
 {
@@ -56,6 +58,10 @@ public class MenuOptions : MonoBehaviour
 
     #region PUBLIC_BUTTON_METHODS
 
+    public void OpenAdminPanel(bool enable)
+    {
+       SceneManager.LoadScene("AdminPanel");
+    }
     public void ToggleAutofocus(bool enable)
     {
         if (this.cameraSettings)

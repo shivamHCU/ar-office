@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_SceneAssets/_Scenes/CloudRecoScene.unity
     guid: e434bc354d6d54b899b4fbf77b3118a3
+  - enabled: 1
+    path: Assets/_SceneAssets/_Scenes/AdminPanel.unity
+    guid: d2184e42f946b744aa20c0e36a19e25f
   m_configObjects: {}

@@ -307,6 +307,15 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
+    <Reference Include="AssetStoreTools">
+      <HintPath>C:/Users/Shivam Gangwar/AR-Office/Assets/AssetStoreTools/Editor/AssetStoreTools.dll</HintPath>
+    </Reference>
+    <Reference Include="AssetStoreToolsExtra">
+      <HintPath>C:/Users/Shivam Gangwar/AR-Office/Assets/AssetStoreTools/Editor/AssetStoreToolsExtra.dll</HintPath>
+    </Reference>
+    <Reference Include="BestHTTP">
+      <HintPath>C:/Users/Shivam Gangwar/AR-Office/Assets/Vuforia Web Services/Plugins/BestHTTP.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>C:/Users/Shivam Gangwar/AR-Office/Library/PackageCache/com.unity.ads@2.0.8/Editor/UnityEditor.Advertisements.dll</HintPath>
     </Reference>

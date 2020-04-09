@@ -34,7 +34,6 @@ public class Sprite_renderer : MonoBehaviour
             imageToDisplay.sprite = sprite;
         }
 
-
         /*
         WWW www = new WWW(URL);
         while (!www.isDone)

@@ -90,6 +90,8 @@
     <Compile Include="Assets\Scripts\Sprite_renderer.cs" />
     <Compile Include="Assets\Scripts\UIQuestion.cs" />
     <Compile Include="Assets\Scripts\VirtualButtonScript.cs" />
+    <Compile Include="Assets\Vuforia Web Services\AdminPanel\Scripts\VWSInterface.cs" />
+    <Compile Include="Assets\Vuforia Web Services\Scripts\VWS.cs" />
     <None Include="Assets\Vuforia\Shaders\ColoredLines.shader" />
     <None Include="Assets\Vuforia\Shaders\CameraDiffuse.shader" />
     <None Include="Assets\Common\TextMeshPro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
@@ -341,6 +343,9 @@
     </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.4.12f1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="BestHTTP">
+      <HintPath>C:/Users/Shivam Gangwar/AR-Office/Assets/Vuforia Web Services/Plugins/BestHTTP.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
       <HintPath>C:/Users/Shivam Gangwar/AR-Office/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Editor.dll</HintPath>

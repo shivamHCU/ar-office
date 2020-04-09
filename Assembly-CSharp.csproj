@@ -69,14 +69,18 @@
     <Compile Include="Assets\Common\Scripts\CloudErrorHandler.cs" />
     <Compile Include="Assets\Common\Scripts\CloudRecoEventHandler.cs" />
     <Compile Include="Assets\Common\Scripts\CloudRecoScanLine.cs" />
+    <Compile Include="Assets\Common\Scripts\DBManager.cs" />
     <Compile Include="Assets\Common\Scripts\FrameRateSettings.cs" />
     <Compile Include="Assets\Common\Scripts\HyperlinkHandler.cs" />
     <Compile Include="Assets\Common\Scripts\InitErrorHandler.cs" />
     <Compile Include="Assets\Common\Scripts\LoadingScreen.cs" />
+    <Compile Include="Assets\Common\Scripts\Login.cs" />
+    <Compile Include="Assets\Common\Scripts\Mainmenu.cs" />
     <Compile Include="Assets\Common\Scripts\MenuOptions.cs" />
     <Compile Include="Assets\Common\Scripts\MessageBox.cs" />
     <Compile Include="Assets\Common\Scripts\NavigationHandler.cs" />
     <Compile Include="Assets\Common\Scripts\OptionsConfig.cs" />
+    <Compile Include="Assets\Common\Scripts\Registration.cs" />
     <Compile Include="Assets\Common\Scripts\SafeAreaManager.cs" />
     <Compile Include="Assets\Common\Scripts\SamplesMainMenu.cs" />
     <Compile Include="Assets\Common\Scripts\SceneOrientation.cs" />
@@ -87,6 +91,8 @@
     <Compile Include="Assets\Scripts\BackAndClose_Instruction.cs" />
     <Compile Include="Assets\Scripts\BackAndExit_ExitScene.cs" />
     <Compile Include="Assets\Scripts\ChangeSceneHome.cs" />
+    <Compile Include="Assets\Scripts\SceneOneControl.cs" />
+    <Compile Include="Assets\Scripts\SceneThreeControl.cs" />
     <Compile Include="Assets\Scripts\Sprite_renderer.cs" />
     <Compile Include="Assets\Scripts\UIQuestion.cs" />
     <Compile Include="Assets\Scripts\VirtualButtonScript.cs" />

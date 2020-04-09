@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class VWSInterface : MonoBehaviour 
 {
@@ -430,7 +431,8 @@ public class VWSInterface : MonoBehaviour
 		{
 			Destroy(tr.gameObject);
 		}
-	}
+        SceneManager.LoadScene(1);
+    }
 
 	public void PickImage()
 	{

@@ -94,6 +94,7 @@
     <Compile Include="Assets\Scripts\CloudTrackableEventHandler.cs" />
     <Compile Include="Assets\Scripts\SC_LoginSystem.cs" />
     <Compile Include="Assets\Scripts\SceneOneControl.cs" />
+    <Compile Include="Assets\Scripts\SceneRegisterChange.cs" />
     <Compile Include="Assets\Scripts\SceneThreeControl.cs" />
     <Compile Include="Assets\Scripts\Singleton.cs" />
     <Compile Include="Assets\Scripts\Sprite_renderer.cs" />

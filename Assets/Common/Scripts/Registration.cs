@@ -10,7 +10,7 @@ public class Registration : MonoBehaviour
     public InputField nameField;
     public InputField passwordField;
     public InputField cnfpwdField;
-
+    public Text Errmsgfield;
     public Button submitButton;
 
     public void CalltheRegister()
@@ -34,24 +34,26 @@ public class Registration : MonoBehaviour
             {
                 Debug.Log(www.error);
                 Debug.Log(www.downloadHandler.text);
+                Errmsgfield.text = www.downloadHandler.text;
             }
-            else if (www.downloadHandler.text=="0")
+            else if (www.downloadHandler.text == "0")
             {
+                Errmsgfield.text = www.downloadHandler.text;
                 UnityEngine.SceneManagement.SceneManager.LoadScene("LoginMenu");
                 Debug.Log("Form upload complete!");
             }
             else
             {
+                Errmsgfield.text = www.downloadHandler.text;
                 Debug.Log(www.downloadHandler.text);
             }
         }
         else
         {
-            Debug.Log("Failed");
+            Debug.Log("Passwords don't match");
+            Errmsgfield.text = "Passwords don't match";
         }
     }
-   
-    
 
     public void VerifyInput()
     {

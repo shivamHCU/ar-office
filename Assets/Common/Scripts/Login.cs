@@ -8,6 +8,7 @@ public class Login : MonoBehaviour
 {
     public InputField nameField;
     public InputField passwordField;
+    public Text Errmsgfield;
 
     public Button submitButton;
 
@@ -30,21 +31,25 @@ public class Login : MonoBehaviour
         {
             Debug.Log(www.error);
             Debug.Log(www.downloadHandler.text);
+            Errmsgfield.text = www.downloadHandler.text;
         }
 
         else if (www.downloadHandler.text == "0")
         {
             Debug.Log("loggedin");
+            Errmsgfield.text = www.downloadHandler.text;
             DBManager.username = nameField.text;
             UnityEngine.SceneManagement.SceneManager.LoadScene("AdminPanelVWS");
-            
+
         }
         else
         {
             Debug.Log(www.downloadHandler.text + "Incorrect username or password");
+            Errmsgfield.text = www.downloadHandler.text + "Incorrect username or password";
         }
 
         Debug.Log(www.downloadHandler.text);
+        Errmsgfield.text = www.downloadHandler.text;
     }
 
 

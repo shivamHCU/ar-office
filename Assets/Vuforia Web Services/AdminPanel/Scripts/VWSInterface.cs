@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.Android;
+using LukeWaffel.AndroidGallery;
 
 public class VWSInterface : MonoBehaviour 
 {
@@ -115,6 +117,8 @@ public class VWSInterface : MonoBehaviour
         }
         );
     }
+
+   
 
     public void LoadTargetList ()
 	{
@@ -484,6 +488,110 @@ public class VWSInterface : MonoBehaviour
 
     }
 
+    /*
+    public void Xyz()
+    {
+        string path = "";
+
+        LogMessage("Hi Shivam!");
+        try
+        {
+            AndroidJavaClass jc = new AndroidJavaClass("android.os.Environment");
+            path = jc.CallStatic<AndroidJavaObject>("getExternalStoragePublicDirectory", jc.GetStatic<string>("DIRECTORY_DCIM")).Call<string>("getAbsolutePath");
+            LogMessage("Shivam"+path);
+        }
+        catch (AndroidJavaException e)
+        {
+            LogMessage(e.Message);
+        }
+        LogMessage("null");
+    }
+    */
+
+    public void OpenGalleryButton()
+    {
+
+        LogMessage("OpenGalleryButton() called!");
+
+        //NOTE: we're using LukeWaffel.AndroidGallery (As seen at the top of this script), without this it won't work
+
+        //This line of code opens the Android image picker, the parameter is a callback function the AndroidGallery script will call when the image has finished loading
+        try
+        {
+            AndroidGallery.Instance.OpenGallery(ImageLoaded);
+        }
+        catch (AndroidJavaException e)
+        {
+            LogMessage(e.Message);
+        }
+
+    }
+
+    //This is the callback function we created
+    public void ImageLoaded()
+    {
+
+        LogMessage("The image has succesfully loaded!");
+        try
+        {
+            TargetImage.sprite = AndroidGallery.Instance.GetSprite();
+
+            if (TargetImage.sprite)
+            {
+                LogMessage("Sprite is set successfully!");
+            }
+
+            TargetImage.material.mainTexture = AndroidGallery.Instance.GetTexture();
+            AndroidGallery.Instance.ResetOutput();
+        }
+        catch (UnityException e)
+        {
+            LogMessage(e.Message);
+        }
+
+    }
+
+
+    /*
+    public void PickImage(int maxSize)
+    {
+        NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
+        {
+            Debug.Log("Image path: " + path);
+            if (path != null)
+            {
+                // Create Texture from selected image
+                Texture2D texture = NativeGallery.LoadImageAtPath(path, maxSize);
+                if (texture == null)
+                {
+                    Debug.Log("Couldn't load texture from " + path);
+                    return;
+                }
+
+                // Assign texture to a temporary quad and destroy it after 5 seconds
+                GameObject quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                quad.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2.5f;
+                quad.transform.forward = Camera.main.transform.forward;
+                quad.transform.localScale = new Vector3(1f, texture.height / (float)texture.width, 1f);
+
+                Material material = quad.GetComponent<Renderer>().material;
+                if (!material.shader.isSupported) // happens when Standard shader is not included in the build
+                    material.shader = Shader.Find("Legacy Shaders/Diffuse");
+
+                material.mainTexture = texture;
+
+                Destroy(quad, 5f);
+
+                // If a procedural texture is not destroyed manually, 
+                // it will only be freed after a scene change
+                Destroy(texture, 5f);
+            }
+        }, "Select a PNG image", "image/png");
+
+        Debug.Log("Permission result: " + permission);
+    }
+
+    */
 
     void UpdateTargetIDField (string targetID)
 	{
@@ -499,4 +607,6 @@ public class VWSInterface : MonoBehaviour
 		btnObject.transform.localScale = Vector3.one;
 		LogPanelScroll.value = 0f;
 	}
+
 }
+

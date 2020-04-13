@@ -88,11 +88,15 @@
     <Compile Include="Assets\Common\Scripts\TapHandler.cs" />
     <Compile Include="Assets\Common\Scripts\TrackableSettings.cs" />
     <Compile Include="Assets\Common\Scripts\VLog.cs" />
+    <Compile Include="Assets\ImagePickerFromGallery\ImagePickerScript.cs" />
+    <Compile Include="Assets\Scripts\AndroidGallery.cs" />
     <Compile Include="Assets\Scripts\BackAndClose_Instruction.cs" />
     <Compile Include="Assets\Scripts\BackAndExit_ExitScene.cs" />
     <Compile Include="Assets\Scripts\ChangeSceneHome.cs" />
+    <Compile Include="Assets\Scripts\SC_LoginSystem.cs" />
     <Compile Include="Assets\Scripts\SceneOneControl.cs" />
     <Compile Include="Assets\Scripts\SceneThreeControl.cs" />
+    <Compile Include="Assets\Scripts\Singleton.cs" />
     <Compile Include="Assets\Scripts\Sprite_renderer.cs" />
     <Compile Include="Assets\Scripts\UIQuestion.cs" />
     <Compile Include="Assets\Scripts\VirtualButtonScript.cs" />

@@ -23,7 +23,7 @@ public class Registration : MonoBehaviour
         form.AddField("name", nameField.text);
         form.AddField("password", passwordField.text);
 
-        UnityWebRequest www = UnityWebRequest.Post("https://shivamgangwar.000webhostapp.com/sqlconnect/register.php", form);
+        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/register.php",form);
         yield return www.SendWebRequest();
         if(www.isNetworkError || www.isHttpError)
         { 

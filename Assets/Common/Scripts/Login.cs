@@ -23,7 +23,7 @@ public class Login : MonoBehaviour
         form.AddField("name", nameField.text);
         form.AddField("password", passwordField.text);
 
-        UnityWebRequest www = UnityWebRequest.Post("https://shivamgangwar.000webhostapp.com/sqlconnect/login.php", form);
+        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/login.php", form);
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
@@ -34,7 +34,7 @@ public class Login : MonoBehaviour
         else
         {
             DBManager.username = nameField.text;
-            UnityEngine.SceneManagement.SceneManager.LoadScene("AdminPanelVWS");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("AdminPanel");
             
         }
     }

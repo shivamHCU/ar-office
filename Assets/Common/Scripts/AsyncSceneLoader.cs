@@ -26,8 +26,8 @@ public class AsyncSceneLoader : MonoBehaviour
     private IEnumerator LoadNextSceneAfter(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("CloudRecoScene");
+        //UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1);
     }
     #endregion //PRIVATE_METHODS
 }

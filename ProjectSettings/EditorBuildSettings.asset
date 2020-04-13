@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_SceneAssets/_Scenes/RegisterMenu.unity
     guid: ff10fa1ee1d4824428847b60396249a4
+  - enabled: 1
+    path: Assets/ImagePickerFromGallery/ImagePicker.unity
+    guid: b2f58c28e4fe6dd4db99104f82848284
   m_configObjects: {}

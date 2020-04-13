@@ -49,7 +49,7 @@ namespace LukeWaffel.AndroidGallery{
 
 			}else{
 				//If we're not on Android, we log an error
-				Debug.LogError ("AndroidGallery can only be used in Android. Because of the dependancy of the Android OS it can NOT be tested in the editor.");
+				Debug.LogError("AndroidGallery can only be used in Android. Because of the dependancy of the Android OS it can NOT be tested in the editor.");
 			}
 
 
@@ -102,7 +102,7 @@ namespace LukeWaffel.AndroidGallery{
 		public void OnImageSelect(string path){
 
 			//We create a new WWW to load the selected file
-			imageWWW = new WWW ("file:///" + path);
+			imageWWW = new WWW ("file://" + path);
 			
 		}
 

@@ -60,8 +60,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\_SceneAssets\CloudReco\Scripts\CloudContentManager.cs" />
-    <Compile Include="Assets\_SceneAssets\CloudReco\Scripts\CloudTrackableEventHandler.cs" />
     <Compile Include="Assets\Common\Scripts\AboutScreenInfo.cs" />
     <Compile Include="Assets\Common\Scripts\AmbientLightManager.cs" />
     <Compile Include="Assets\Common\Scripts\AsyncSceneLoader.cs" />
@@ -88,11 +86,12 @@
     <Compile Include="Assets\Common\Scripts\TapHandler.cs" />
     <Compile Include="Assets\Common\Scripts\TrackableSettings.cs" />
     <Compile Include="Assets\Common\Scripts\VLog.cs" />
-    <Compile Include="Assets\ImagePickerFromGallery\ImagePickerScript.cs" />
     <Compile Include="Assets\Scripts\AndroidGallery.cs" />
     <Compile Include="Assets\Scripts\BackAndClose_Instruction.cs" />
     <Compile Include="Assets\Scripts\BackAndExit_ExitScene.cs" />
     <Compile Include="Assets\Scripts\ChangeSceneHome.cs" />
+    <Compile Include="Assets\Scripts\CloudContentManager.cs" />
+    <Compile Include="Assets\Scripts\CloudTrackableEventHandler.cs" />
     <Compile Include="Assets\Scripts\SC_LoginSystem.cs" />
     <Compile Include="Assets\Scripts\SceneOneControl.cs" />
     <Compile Include="Assets\Scripts\SceneThreeControl.cs" />

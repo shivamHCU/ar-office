@@ -6,8 +6,10 @@ using UnityEngine.Networking;
 
 public class Registration : MonoBehaviour
 {
+    public InputField UserNameField;
     public InputField nameField;
     public InputField passwordField;
+    public InputField cnfpwdField;
 
     public Button submitButton;
 
@@ -21,20 +23,32 @@ public class Registration : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         form.AddField("name", nameField.text);
+        form.AddField("Username", UserNameField.text);
         form.AddField("password", passwordField.text);
+        if (passwordField.text == cnfpwdField.text)
+        {
 
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/register.php",form);
-        yield return www.SendWebRequest();
-        if(www.isNetworkError || www.isHttpError)
-        { 
-            Debug.Log(www.error);
+            UnityWebRequest www = UnityWebRequest.Post("https://shivamgangwar.000webhostapp.com/sqlconnect/register.php", form);
+            yield return www.SendWebRequest();
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+                Debug.Log(www.downloadHandler.text);
+            }
+            else if (www.downloadHandler.text=="0")
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("LoginMenu");
+                Debug.Log("Form upload complete!");
+            }
+            else
+            {
+                Debug.Log(www.downloadHandler.text);
+            }
         }
         else
-            {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("AdminPanelLogin");
-            Debug.Log("Form upload complete!");
-            }
-        
+        {
+            Debug.Log("Failed");
+        }
     }
    
     

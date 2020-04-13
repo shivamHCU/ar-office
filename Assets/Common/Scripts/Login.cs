@@ -23,20 +23,28 @@ public class Login : MonoBehaviour
         form.AddField("name", nameField.text);
         form.AddField("password", passwordField.text);
 
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/login.php", form);
+        UnityWebRequest www = UnityWebRequest.Post("https://shivamgangwar.000webhostapp.com/sqlconnect/login.php", form);
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
         {
             Debug.Log(www.error);
+            Debug.Log(www.downloadHandler.text);
         }
 
-        else
+        else if (www.downloadHandler.text == "0")
         {
+            Debug.Log("loggedin");
             DBManager.username = nameField.text;
-            UnityEngine.SceneManagement.SceneManager.LoadScene("AdminPanel");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("AdminPanelVWS");
             
         }
+        else
+        {
+            Debug.Log(www.downloadHandler.text + "Incorrect username or password");
+        }
+
+        Debug.Log(www.downloadHandler.text);
     }
 
 

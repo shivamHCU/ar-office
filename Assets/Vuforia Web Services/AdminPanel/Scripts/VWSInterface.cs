@@ -519,6 +519,7 @@ public class VWSInterface : MonoBehaviour
         try
         {
             AndroidGallery.Instance.OpenGallery(ImageLoaded);
+
         }
         catch (AndroidJavaException e)
         {

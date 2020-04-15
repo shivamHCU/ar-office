@@ -7,9 +7,12 @@
     android:versionCode="1"
     android:versionName="1.0">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    
-    <supports-screens
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.CALL_PHONE" />
+
+
+  <supports-screens
         android:smallScreens="true"
         android:normalScreens="true"
         android:largeScreens="true"

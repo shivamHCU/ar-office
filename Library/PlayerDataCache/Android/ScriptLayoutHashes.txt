@@ -2,9 +2,9 @@ Android
 PlayerPath?
 C:/Users/Shivam Gangwar/AR-Office/AR-Office.apk
 SceneListBegin?
+Assets/_SceneAssets/_Scenes/AdminPanelVWS.unity
 Assets/_SceneAssets/_Scenes/SplashScreen.unity
 Assets/_SceneAssets/_Scenes/CloudRecoScene.unity
-Assets/_SceneAssets/_Scenes/AdminPanelVWS.unity
 Assets/_SceneAssets/_Scenes/AdminPanelLogin.unity
 Assets/_SceneAssets/_Scenes/LoginMenu.unity
 Assets/_SceneAssets/_Scenes/RegisterMenu.unity
@@ -207,6 +207,7 @@ b3ab2106268377ffe25dd18ac23dca28 Unity.TextMeshPro.dll:TMPro.TMP_Asset
 4f8e141cd5fc55ab871e33b3ace31838 Assembly-CSharp.dll:.VirtualButtonScript
 b35c35967bb6949fc094bfec5960c675 Assembly-CSharp.dll:.OptionsConfig
 0b8e644e5cd8a1f503638e56d9f98541 Assembly-CSharp.dll:.SC_LoginSystem
+71bb6a6b6c8f052f948db64c7dd3ca4f Assembly-CSharp.dll:.SceneRegisterChange
 71bb6a6b6c8f052f948db64c7dd3ca4f Unity.Analytics.Editor.dll:UnityEditor.Analytics.AnalyticsEventTrackerEditor
 71bb6a6b6c8f052f948db64c7dd3ca4f Assembly-CSharp.dll:.HyperlinkHandler
 71bb6a6b6c8f052f948db64c7dd3ca4f Unity.TextMeshPro.dll:TMPro.TMP_SpriteAnimator
@@ -254,7 +255,7 @@ dff7a11839abb9fb7222280cf3c0a95a VuforiaScripts.dll:.DefaultModelRecoEventHandle
 3b760e6526e13f7504f59e210145899a Unity.TextMeshPro.dll:TMPro.TextMeshProUGUI
 507174d46dacbc5fe45e28485db5dd1e Unity.Analytics.DataPrivacy.dll:UnityEngine.Analytics.DataPrivacyButton
 53e14c2fee183bbfa48ae0531088286d Assembly-CSharp.dll:.CloudRecoEventHandler
-9a5917624a040f5c9dd42208b6275999 Assembly-CSharp.dll:.Mainmenu
+71bb6a6b6c8f052f948db64c7dd3ca4f Assembly-CSharp.dll:.Mainmenu
 1bc1648c519e8fc90c758f59d71bdf8f Assembly-CSharp.dll:.SamplesMainMenu
 d251bf88db6c95a6b1aa0b69298da9ef UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 71bb6a6b6c8f052f948db64c7dd3ca4f Assembly-CSharp.dll:.DBManager
@@ -335,4 +336,3 @@ fe10de86e42ce80dc24cf76ac1c87c2a Vuforia.UnityExtensions.dll:Vuforia.VuforiaConf
 69167579cf7fcbb2676fc1e675963dcd Vuforia.UnityExtensions.dll:Vuforia.VuMarkBehaviour
 fbbf64dcbe0662e3eda1dec45ea8f895 Vuforia.UnityExtensions.dll:Vuforia.WireframeBehaviour
 71bb6a6b6c8f052f948db64c7dd3ca4f Vuforia.UnityExtensions.dll:Vuforia.WireframeTrackableEventHandler
-71bb6a6b6c8f052f948db64c7dd3ca4f Assembly-CSharp.dll:.SceneRegisterChange

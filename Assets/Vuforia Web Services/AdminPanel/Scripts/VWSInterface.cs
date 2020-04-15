@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.Android;
 using LukeWaffel.AndroidGallery;
+using UnityEngine.Networking;
 
 public class VWSInterface : MonoBehaviour 
 {
@@ -26,6 +27,8 @@ public class VWSInterface : MonoBehaviour
 	public Toggle TargetFlagToggle;
 	public InputField TargetMetaField;
 	public Image TargetImage;
+
+    private static string URL;
 
 
 	void Start () 
@@ -488,26 +491,8 @@ public class VWSInterface : MonoBehaviour
 
     }
 
+
     /*
-    public void Xyz()
-    {
-        string path = "";
-
-        LogMessage("Hi Shivam!");
-        try
-        {
-            AndroidJavaClass jc = new AndroidJavaClass("android.os.Environment");
-            path = jc.CallStatic<AndroidJavaObject>("getExternalStoragePublicDirectory", jc.GetStatic<string>("DIRECTORY_DCIM")).Call<string>("getAbsolutePath");
-            LogMessage("Shivam"+path);
-        }
-        catch (AndroidJavaException e)
-        {
-            LogMessage(e.Message);
-        }
-        LogMessage("null");
-    }
-    */
-
     public void OpenGalleryButton()
     {
 
@@ -550,49 +535,36 @@ public class VWSInterface : MonoBehaviour
             LogMessage(e.Message);
         }
 
-    }
+    } */
 
-
-    /*
-    public void PickImage(int maxSize)
+    public void OpenGalleryButton()
     {
-        NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
-        {
-            Debug.Log("Image path: " + path);
-            if (path != null)
-            {
-                // Create Texture from selected image
-                Texture2D texture = NativeGallery.LoadImageAtPath(path, maxSize);
-                if (texture == null)
-                {
-                    Debug.Log("Couldn't load texture from " + path);
-                    return;
-                }
-
-                // Assign texture to a temporary quad and destroy it after 5 seconds
-                GameObject quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
-                quad.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2.5f;
-                quad.transform.forward = Camera.main.transform.forward;
-                quad.transform.localScale = new Vector3(1f, texture.height / (float)texture.width, 1f);
-
-                Material material = quad.GetComponent<Renderer>().material;
-                if (!material.shader.isSupported) // happens when Standard shader is not included in the build
-                    material.shader = Shader.Find("Legacy Shaders/Diffuse");
-
-                material.mainTexture = texture;
-
-                Destroy(quad, 5f);
-
-                // If a procedural texture is not destroyed manually, 
-                // it will only be freed after a scene change
-                Destroy(texture, 5f);
-            }
-        }, "Select a PNG image", "image/png");
-
-        Debug.Log("Permission result: " + permission);
+        StartCoroutine("ImageLoaded");   
     }
 
-    */
+    public IEnumerator ImageLoaded()
+    {
+
+        string url = TargetIDField.text;
+
+        URL = (new System.Uri(url)).AbsoluteUri;
+
+        Debug.Log(URL);
+        WWW imageWWW;
+        imageWWW = new WWW(URL);
+        while (!imageWWW.isDone)
+        {
+            Debug.Log("Download image on progress" + imageWWW.progress);
+            yield return null;
+        }
+
+        Debug.Log("Download succes");
+        Texture2D texture = new Texture2D(1, 1);
+        imageWWW.LoadImageIntoTexture(texture);
+        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100);
+        Debug.Log("");
+        TargetImage.sprite = sprite;
+    }
 
     void UpdateTargetIDField (string targetID)
 	{

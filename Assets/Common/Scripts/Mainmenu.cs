@@ -6,15 +6,6 @@ using UnityEngine.UI;
 
 public class Mainmenu : MonoBehaviour
 {
-    public Text playerDisplay;
-
-    private void Start()
-    {
-        if (DBManager.LoggedIn)
-        {
-            playerDisplay.text = "Player: " + DBManager.username;
-        }
-    }
 
     public void GoToRegister()
     {

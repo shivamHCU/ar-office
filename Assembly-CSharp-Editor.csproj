@@ -709,9 +709,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{33690110-4184-B66D-5FFF-8E81A246315F}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
     <ProjectReference Include="Assembly-CSharp.csproj">
       <Project>{CA727306-9A8B-8697-6BEA-3B76A7A5A3C7}</Project>
       <Name>Assembly-CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="Assembly-CSharp-Editor-firstpass.csproj">
+      <Project>{8A406690-6005-C852-EB0C-3B04F6682B6A}</Project>
+      <Name>Assembly-CSharp-Editor-firstpass</Name>
     </ProjectReference>
     <ProjectReference Include="VuforiaScripts.csproj">
       <Project>{8DE624C7-2E21-A314-5159-B32786095959}</Project>

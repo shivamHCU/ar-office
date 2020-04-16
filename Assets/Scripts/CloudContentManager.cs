@@ -90,6 +90,8 @@ public class CloudContentManager : MonoBehaviour
     {
         Debug.Log("<color=blue>HandleTargetFinderResult(): " + targetSearchResult.TargetName + "</color>");
 
+        float scale;
+
         metadata = targetSearchResult.MetaData;
         metadata = metadata.Trim();
 

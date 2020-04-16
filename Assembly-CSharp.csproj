@@ -100,6 +100,8 @@
     <Compile Include="Assets\Scripts\Sprite_renderer.cs" />
     <Compile Include="Assets\Scripts\UIQuestion.cs" />
     <Compile Include="Assets\Scripts\VirtualButtonScript.cs" />
+    <Compile Include="Assets\Vuforia Web Services\AdminPanel\Scripts\ImageButtonScript.cs" />
+    <Compile Include="Assets\Vuforia Web Services\AdminPanel\Scripts\StorageImageLoader.cs" />
     <Compile Include="Assets\Vuforia Web Services\AdminPanel\Scripts\VWSInterface.cs" />
     <Compile Include="Assets\Vuforia Web Services\Scripts\VWS.cs" />
     <None Include="Assets\Vuforia\Shaders\ColoredLines.shader" />
@@ -722,6 +724,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{33690110-4184-B66D-5FFF-8E81A246315F}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
     <ProjectReference Include="VuforiaScripts.csproj">
       <Project>{8DE624C7-2E21-A314-5159-B32786095959}</Project>
       <Name>VuforiaScripts</Name>

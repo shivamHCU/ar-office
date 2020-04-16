@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.Android;
-using LukeWaffel.AndroidGallery;
 using UnityEngine.Networking;
 
 public class VWSInterface : MonoBehaviour 
@@ -28,65 +27,63 @@ public class VWSInterface : MonoBehaviour
 	public InputField TargetMetaField;
 	public Image TargetImage;
 
-    private static string URL;
 
-
-	void Start () 
-	{
+    void Start()
+    {
         //LoadDatabaseCredentials ();
         ConnectToDatabase();
 
     }
 
-	//void LoadDatabaseCredentials ()
-	//{
-	//	if (string.IsNullOrEmpty(VWS.Instance.accessKey) && PlayerPrefs.HasKey("accessKey"))
-	//	{
- //           VWS.Instance.accessKey = PlayerPrefs.GetString("accessKey");
- //           DatabaseAccessField.text = VWS.Instance.accessKey;
- //       }
+    //void LoadDatabaseCredentials ()
+    //{
+    //	if (string.IsNullOrEmpty(VWS.Instance.accessKey) && PlayerPrefs.HasKey("accessKey"))
+    //	{
+    //           VWS.Instance.accessKey = PlayerPrefs.GetString("accessKey");
+    //           DatabaseAccessField.text = VWS.Instance.accessKey;
+    //       }
 
-	//	if (string.IsNullOrEmpty(VWS.Instance.secretKey) && PlayerPrefs.HasKey("secretKey"))
-	//	{
- //           VWS.Instance.secretKey = PlayerPrefs.GetString("secretKey");
- //           DatabaseSecretField.text = VWS.Instance.secretKey;
- //       }
+    //	if (string.IsNullOrEmpty(VWS.Instance.secretKey) && PlayerPrefs.HasKey("secretKey"))
+    //	{
+    //           VWS.Instance.secretKey = PlayerPrefs.GetString("secretKey");
+    //           DatabaseSecretField.text = VWS.Instance.secretKey;
+    //       }
 
-	//	ConnectToDatabase ();
-	//}
+    //	ConnectToDatabase ();
+    //}
 
-	public void ConnectToDatabase ()
-	{
-		//VWS.Instance.accessKey = DatabaseAccessField.text;
-		//VWS.Instance.secretKey = DatabaseSecretField.text;
+    public void ConnectToDatabase()
+    {
+        //VWS.Instance.accessKey = DatabaseAccessField.text;
+        //VWS.Instance.secretKey = DatabaseSecretField.text;
 
-		//PlayerPrefs.SetString("accessKey", DatabaseAccessField.text);
-		//PlayerPrefs.SetString("secretKey", DatabaseSecretField.text);
-		//PlayerPrefs.Save();
+        //PlayerPrefs.SetString("accessKey", DatabaseAccessField.text);
+        //PlayerPrefs.SetString("secretKey", DatabaseSecretField.text);
+        //PlayerPrefs.Save();
 
-		LogMessage("Requesting database summary...");
-		VWS.Instance.RetrieveDatabaseSummary( response =>
-			{
-				if (response.result_code == "Success")
-				{
-					DatabaseTitle.text = response.name;
+        LogMessage("Requesting database summary...");
+        VWS.Instance.RetrieveDatabaseSummary(response =>
+        {
+            if (response.result_code == "Success")
+            {
+                DatabaseTitle.text = response.name;
 
-					string log = "Name: " + response.name + "\n";
-					log += "Active images: " + response.active_images + "\n";
-					log += "Failed images: " + response.failed_images + "\n";
-					log += "Inactive images: " + response.inactive_images;
+                string log = "Name: " + response.name + "\n";
+                log += "Active images: " + response.active_images + "\n";
+                log += "Failed images: " + response.failed_images + "\n";
+                log += "Inactive images: " + response.inactive_images;
 
-					LogMessage(log);
+                LogMessage(log);
 
-					LoadTargetList();
-				}
-				else 
-				{
-					LogMessage(response.result_code);
-				}
-			}
-		);
-	}
+                LoadTargetList();
+            }
+            else
+            {
+                LogMessage(response.result_code);
+            }
+        }
+        );
+    }
 
     public void ConnectToDatabaseRuntime()
     {
@@ -121,8 +118,6 @@ public class VWSInterface : MonoBehaviour
         );
     }
 
-   
-
     public void LoadTargetList ()
 	{
 		LogMessage("Requesting target list...");
@@ -141,7 +136,54 @@ public class VWSInterface : MonoBehaviour
 	}
 
 
-	public void RetrieveTarget()
+    void RebuildTargetList(string[] targets)
+    {
+        foreach (Transform tr in TargetListContent)
+        {
+            Destroy(tr.gameObject);
+        }
+
+        foreach (var targetID in targets)
+        {
+            GameObject btnObject = Instantiate(TargetListPrefab, TargetListContent);
+            btnObject.transform.localScale = Vector3.one;
+
+            btnObject.GetComponentInChildren<Text>().text = targetID;
+            SetTargetNameInMainlist(btnObject.GetComponentInChildren<Text>(), targetID);
+
+            string target = targetID;
+            btnObject.GetComponent<Button>().onClick.AddListener(() => UpdateTargetIDField(target));
+        }
+    }
+
+
+
+    public void SetTargetNameInMainlist(Text listItem, string id)
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            LogMessage("Please specify target id");
+            return;
+        }
+
+        VWS.Instance.RetrieveTarget(id, response =>
+        {
+            if (response.result_code == "Success")
+            {
+                listItem.text = response.target_record.name;
+            }
+            else
+            {
+                LogMessage(response.result_code);
+            }
+        }
+        );
+
+    }
+
+
+
+    public void RetrieveTarget()
 	{
 		if(string.IsNullOrEmpty(TargetIDField.text))
 		{
@@ -438,133 +480,35 @@ public class VWSInterface : MonoBehaviour
 		{
 			Destroy(tr.gameObject);
 		}
-        SceneManager.LoadScene(1);
-    }
+	}
 
 	public void PickImage()
 	{
 		TargetImage.sprite = EventSystem.current.currentSelectedGameObject.GetComponent<Image>().sprite;
 	}
 
-	void RebuildTargetList (string[] targets)
-	{
-		foreach (Transform tr in TargetListContent)
-		{
-			Destroy(tr.gameObject);
-		}
-
-		foreach (var targetID in targets)
-		{
-			GameObject btnObject = Instantiate(TargetListPrefab, TargetListContent);
-			btnObject.transform.localScale = Vector3.one;
-
-            btnObject.GetComponentInChildren<Text>().text = targetID;
-            SetTargetNameInMainlist(btnObject.GetComponentInChildren<Text>(), targetID);
-
-            string target = targetID;
-			btnObject.GetComponent<Button>().onClick.AddListener(() => UpdateTargetIDField(target));
-		}
-	}
-
-
-
-    public void SetTargetNameInMainlist(Text listItem,string id)
-    {
-        if (string.IsNullOrEmpty(id))
-        {
-            LogMessage("Please specify target id");
-            return;
-        }
-
-        VWS.Instance.RetrieveTarget(id, response =>
-        {
-            if (response.result_code == "Success")
-            {
-                listItem.text = response.target_record.name;
-            }
-            else
-            {
-                LogMessage(response.result_code);
-            }
-        }
-        );
-
-    }
-
-
-    /*
     public void OpenGalleryButton()
     {
-
-        LogMessage("OpenGalleryButton() called!");
-
-        //NOTE: we're using LukeWaffel.AndroidGallery (As seen at the top of this script), without this it won't work
-
-        //This line of code opens the Android image picker, the parameter is a callback function the AndroidGallery script will call when the image has finished loading
-        try
-        {
-            AndroidGallery.Instance.OpenGallery(ImageLoaded);
-
-        }
-        catch (AndroidJavaException e)
-        {
-            LogMessage(e.Message);
-        }
-
-    }
-
-    //This is the callback function we created
-    public void ImageLoaded()
-    {
-
-        LogMessage("The image has succesfully loaded!");
-        try
-        {
-            TargetImage.sprite = AndroidGallery.Instance.GetSprite();
-
-            if (TargetImage.sprite)
-            {
-                LogMessage("Sprite is set successfully!");
-            }
-
-            TargetImage.material.mainTexture = AndroidGallery.Instance.GetTexture();
-            AndroidGallery.Instance.ResetOutput();
-        }
-        catch (UnityException e)
-        {
-            LogMessage(e.Message);
-        }
-
-    } */
-
-    public void OpenGalleryButton()
-    {
-        StartCoroutine("ImageLoaded");   
-    }
-
-    public IEnumerator ImageLoaded()
-    {
-
-        string url = TargetIDField.text;
-
-        URL = (new System.Uri(url)).AbsoluteUri;
-
-        Debug.Log(URL);
-        WWW imageWWW;
-        imageWWW = new WWW(URL);
-        while (!imageWWW.isDone)
-        {
-            Debug.Log("Download image on progress" + imageWWW.progress);
-            yield return null;
-        }
-
-        Debug.Log("Download succes");
         Texture2D texture = new Texture2D(1, 1);
-        imageWWW.LoadImageIntoTexture(texture);
-        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100);
-        Debug.Log("");
-        TargetImage.sprite = sprite;
+        NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
+        {
+            LogMessage("Path :- " + path);
+            if (path != null)
+            {
+                texture = NativeGallery.LoadImageAtPath(path);
+                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100);
+                TargetImage.sprite = sprite;
+            }
+        });
+
+        Destroy(texture);
+
+        
     }
+
+
+
+
 
     void UpdateTargetIDField (string targetID)
 	{
@@ -580,6 +524,4 @@ public class VWSInterface : MonoBehaviour
 		btnObject.transform.localScale = Vector3.one;
 		LogPanelScroll.value = 0f;
 	}
-
 }
-

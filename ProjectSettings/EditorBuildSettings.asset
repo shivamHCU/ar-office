@@ -6,11 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_SceneAssets/_Scenes/AdminPanelVWS.unity
-    guid: 9f948bd62fef66049bd04d85a9b78713
-  - enabled: 1
     path: Assets/_SceneAssets/_Scenes/SplashScreen.unity
     guid: 7238041e8d31f4d439b8851a5d4bb6fa
+  - enabled: 1
+    path: Assets/_SceneAssets/_Scenes/AdminPanelVWS.unity
+    guid: 9f948bd62fef66049bd04d85a9b78713
   - enabled: 1
     path: Assets/_SceneAssets/_Scenes/CloudRecoScene.unity
     guid: e434bc354d6d54b899b4fbf77b3118a3

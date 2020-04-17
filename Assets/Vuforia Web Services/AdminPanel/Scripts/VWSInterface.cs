@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.Android;
 using UnityEngine.Networking;
+using UnityEngine.Video;
 
 public class VWSInterface : MonoBehaviour 
 {
@@ -26,7 +27,10 @@ public class VWSInterface : MonoBehaviour
 	public Toggle TargetFlagToggle;
 	public InputField TargetMetaField;
 	public Image TargetImage;
-
+    [Space]
+    public Image AugmentationImage;
+    public VideoPlayer AugmentationVideo;
+    
 
     void Start()
     {
@@ -65,8 +69,7 @@ public class VWSInterface : MonoBehaviour
         VWS.Instance.RetrieveDatabaseSummary(response =>
         {
             if (response.result_code == "Success")
-            {
-                DatabaseTitle.text = response.name;
+            { 
 
                 string log = "Name: " + response.name + "\n";
                 log += "Active images: " + response.active_images + "\n";
@@ -474,7 +477,35 @@ public class VWSInterface : MonoBehaviour
 	}
 
 
-	public void ClearLog()
+    public void UpdateAugmentation()
+    {
+        if (string.IsNullOrEmpty(TargetIDField.text))
+        {
+            LogMessage("Please specify target id");
+            return;
+        }
+
+        LogMessage("Updating Augmentation on Web Server...");
+        /*
+        VWS.Instance.UpdateTargetImage(TargetIDField.text,
+            TargetImage.sprite.texture,
+            response =>
+            {
+                if (response.result_code == "Success")
+                {
+                    LogMessage("Target image updated");
+                }
+                else
+                {
+                    LogMessage(response.result_code);
+                }
+            }
+        );
+        */
+    }
+
+
+    public void ClearLog()
 	{
 		foreach (Transform tr in LogPanelContent)
 		{
@@ -487,8 +518,12 @@ public class VWSInterface : MonoBehaviour
 		TargetImage.sprite = EventSystem.current.currentSelectedGameObject.GetComponent<Image>().sprite;
 	}
 
-    public void OpenGalleryButton()
+    public void OpenGalleryButton(Image TargetImg)
     {
+        if (AugmentationVideo.isPlaying)
+        {
+            AugmentationVideo.Pause();
+        }
         Texture2D texture = new Texture2D(1, 1);
         NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
         {
@@ -497,15 +532,40 @@ public class VWSInterface : MonoBehaviour
             {
                 texture = NativeGallery.LoadImageAtPath(path);
                 Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100);
-                TargetImage.sprite = sprite;
+                TargetImg.sprite = sprite;
             }
         });
 
         Destroy(texture);
 
-        
     }
 
+    public void PickVideo()
+    {
+        if (AugmentationImage.sprite != null) {
+            AugmentationImage.sprite = null;
+        }
+
+        //AugmentationVideo.url = "file://" + "C:/SenkathirSelvan.mp4";
+
+        if (TargetFlagToggle.isOn) {
+            NativeGallery.Permission permission = NativeGallery.GetVideoFromGallery((path) =>
+            {
+                if (path != null)
+                {
+                    AugmentationVideo.url = "file://" + path;
+                    LogMessage("AugmentationVideo.url =" + "file://" + path);
+                    //Handheld.PlayFullScreenMovie("file://" + path);
+                }
+            }, "Select a video");
+
+            LogMessage("Permission result: " + permission);
+        }
+        else
+        {
+            AugmentationVideo.url = TargetIDField.text;
+        }
+    }
 
 
 

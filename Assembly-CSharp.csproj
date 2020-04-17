@@ -86,7 +86,6 @@
     <Compile Include="Assets\Common\Scripts\TapHandler.cs" />
     <Compile Include="Assets\Common\Scripts\TrackableSettings.cs" />
     <Compile Include="Assets\Common\Scripts\VLog.cs" />
-    <Compile Include="Assets\Scripts\AndroidGallery.cs" />
     <Compile Include="Assets\Scripts\BackAndClose_Instruction.cs" />
     <Compile Include="Assets\Scripts\BackAndExit_ExitScene.cs" />
     <Compile Include="Assets\Scripts\ChangeSceneHome.cs" />
@@ -102,6 +101,8 @@
     <Compile Include="Assets\Scripts\VirtualButtonScript.cs" />
     <Compile Include="Assets\Vuforia Web Services\AdminPanel\Scripts\ImageButtonScript.cs" />
     <Compile Include="Assets\Vuforia Web Services\AdminPanel\Scripts\StorageImageLoader.cs" />
+    <Compile Include="Assets\Vuforia Web Services\AdminPanel\Scripts\ToggleControl.cs" />
+    <Compile Include="Assets\Vuforia Web Services\AdminPanel\Scripts\VideoPlayerController.cs" />
     <Compile Include="Assets\Vuforia Web Services\AdminPanel\Scripts\VWSInterface.cs" />
     <Compile Include="Assets\Vuforia Web Services\Scripts\VWS.cs" />
     <None Include="Assets\Vuforia\Shaders\ColoredLines.shader" />

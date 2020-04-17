@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/_SceneAssets/_Scenes/CloudRecoScene.unity
+- path: Assets/_SceneAssets/_Scenes/AdminPanelVWS.unity
   isLoaded: 1
   isActive: 1

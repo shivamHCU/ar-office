@@ -6,8 +6,17 @@ using UnityEngine.Networking;
 public class Sprite_renderer : MonoBehaviour
 {
     public SpriteRenderer imageToDisplay;
-
+    public GameObject parent;
     public string imageUrl;
+    float x;
+
+    private void Update()
+    {
+        if (imageUrl.Equals("")) {
+            imageToDisplay.sprite = null;
+        }
+    }
+
 
     public IEnumerator loadSpriteImageFromUrl(string URL)
     {
@@ -26,40 +35,35 @@ public class Sprite_renderer : MonoBehaviour
             Texture2D texture = new Texture2D(1, 1);
             texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
 
-            float x = (texture.height / 635.0f) * 100.0f;
+            //float x = (texture.height / 635.0f) * 100.0f;
+            //1.5827 |              
+            //1 1.5827/6.350 = 0.0002492 
+            //1800   nop = 1204
 
-            Sprite sprite = Sprite.Create(texture,
-                new Rect(-0.0016f, -0.0013f, texture.width, texture.height), new Vector2(0.5f, 0.5f), x);
+            //1 / 0.083 = ;
 
-            imageToDisplay.sprite = sprite;
-        }
+            //1/ 0.1582 = 632.1;
 
-        /*
-        WWW www = new WWW(URL);
-        while (!www.isDone)
-        {
-            Debug.Log("Download image on progress" + www.progress);
-            yield return null;
-        }
+            Debug.Log(texture.height);
+            Debug.Log(texture.width);
+            x = 1.0122f * texture.width - 10.647f;
+            Debug.Log(x);
 
-        if (!string.IsNullOrEmpty(www.error))
-        {
-            Debug.Log("Download failed");
-        }
-        else
-        {
-            Debug.Log("Download succes");
-            Texture2D texture = new Texture2D(1, 1);
-            www.LoadImageIntoTexture(texture);
 
-            float x = (texture.height/635.0f) * 100.0f;
+            //1200 - 1204;
+            //635 - 632.1;
 
-            Sprite sprite = Sprite.Create(texture,
-                new Rect(-0.0016f, -0.0013f, texture.width, texture.height), new Vector2(0.5f,0.5f ), x);
 
+            //float yScale = -0.5f;
+
+            //parent.GetComponent<Transform>().localScale += new Vector3(0f,yScale, 0f);
+
+
+            Sprite sprite = Sprite.Create(texture, new Rect(0,0, texture.width, texture.height), new Vector2(0.5f, 0.5f),x);
 
             imageToDisplay.sprite = sprite;
+
+            //=1800*0.0002492f
         }
-        */
     }
 }

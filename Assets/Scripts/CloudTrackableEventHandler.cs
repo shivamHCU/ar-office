@@ -18,6 +18,8 @@ public class CloudTrackableEventHandler : DefaultTrackableEventHandler
     CloudRecoBehaviour m_CloudRecoBehaviour;
     CloudContentManager m_CloudContentManager;
     bool isVideoPlayer;
+    //bool isImage;
+    //Sprite_renderer ImageHolder;
 
     #endregion // PRIVATE_MEMBERS
 
@@ -27,9 +29,11 @@ public class CloudTrackableEventHandler : DefaultTrackableEventHandler
     {
         base.Start();
         isVideoPlayer = false;
+        //isImage = false;
 
         m_CloudRecoBehaviour = FindObjectOfType<CloudRecoBehaviour>();
         m_CloudContentManager = FindObjectOfType<CloudContentManager>();
+        //ImageHolder = GameObject.Find("imageHolder").GetComponent<Sprite_renderer>();
     }
     #endregion // MONOBEHAVIOUR_METHODS
 
@@ -60,6 +64,12 @@ public class CloudTrackableEventHandler : DefaultTrackableEventHandler
             {
                 isVideoPlayer = true;
             }
+            /*
+            else if (splitStrings[0].Equals("1"))
+            {
+                isImage = true;
+            }
+            */
         }
         m_CloudContentManager.HandleTargetFinderResult(targetSearchResult);
     }
@@ -101,6 +111,14 @@ public class CloudTrackableEventHandler : DefaultTrackableEventHandler
             VideoPlayer.Stop();
             isVideoPlayer = false;
         }
+
+        /*
+        if (isImage)
+        {
+            ImageHolder.imageUrl = "";
+            isImage = false;
+        }
+        */
 
         if (m_CloudRecoBehaviour)
         {

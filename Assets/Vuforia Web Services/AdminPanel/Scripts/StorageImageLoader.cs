@@ -27,9 +27,9 @@ public class StorageImageLoader : MonoBehaviour
         #endif
 
         DirectoryInfo levelDirectoryPath = new DirectoryInfo(path);
-        FileInfo[] fileInfo = levelDirectoryPath.GetFiles("*.jpg");
-        fileInfo.Union(levelDirectoryPath.GetFiles("*.jpeg"));
-        fileInfo.Union(levelDirectoryPath.GetFiles("*.png"));
+        FileInfo[] fileInfo = levelDirectoryPath.GetFiles("*.*");
+//        fileInfo.Union(levelDirectoryPath.GetFiles("*.jpeg"));
+//        fileInfo.Union(levelDirectoryPath.GetFiles("*.png"));
 
         foreach (FileInfo file in fileInfo)
         {

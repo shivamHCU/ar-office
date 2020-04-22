@@ -18,6 +18,8 @@ public class CloudTrackableEventHandler : DefaultTrackableEventHandler
     CloudRecoBehaviour m_CloudRecoBehaviour;
     CloudContentManager m_CloudContentManager;
     bool isVideoPlayer;
+
+    TargetFinder.CloudRecoSearchResult xyz;
     //bool isImage;
     //Sprite_renderer ImageHolder;
 

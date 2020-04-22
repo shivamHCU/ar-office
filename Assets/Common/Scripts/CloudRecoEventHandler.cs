@@ -51,10 +51,6 @@ public class CloudRecoEventHandler : MonoBehaviour, IObjectRecoEventHandler
         
     }
 
-    void Update()
-    {
-        
-    }
     #endregion // MONOBEHAVIOUR_METHODS
 
 

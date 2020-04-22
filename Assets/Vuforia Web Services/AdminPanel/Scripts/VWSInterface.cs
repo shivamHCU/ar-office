@@ -388,7 +388,7 @@ public class VWSInterface : MonoBehaviour
         
         if (metadata == null)
         {
-            LogMessage("Not Updated! Make sure your entered the meta data for target Correctly!");
+            LogMessage("Not Updated! Make sure your entered the metadata for target Correctly!");
             return;
         }
 
@@ -627,7 +627,6 @@ public class VWSInterface : MonoBehaviour
             Texture2D texture = new Texture2D(1, 1);
             NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
             {
-                LogMessage("Path :- " + path);
                 if (path != null)
                 {
                     texture = NativeGallery.LoadImageAtPath(path);
@@ -836,7 +835,12 @@ public class VWSInterface : MonoBehaviour
 		RetrieveTarget();
 	}
 
-	void LogMessage(string message)
+    public void openURL()
+    {
+        Application.OpenURL("http://shivamgangwar.000webhostapp.com/uploadmedia/upload.html");
+    }
+
+    void LogMessage(string message)
 	{
 		GameObject btnObject = Instantiate(LogMessagePrefab);
 		btnObject.GetComponentInChildren<Text>().text = message;

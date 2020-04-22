@@ -84,6 +84,7 @@
     <Compile Include="Assets\Common\Scripts\VLog.cs" />
     <Compile Include="Assets\Scripts\BackAndClose_Instruction.cs" />
     <Compile Include="Assets\Scripts\BackAndExit_ExitScene.cs" />
+    <Compile Include="Assets\Scripts\ChangeAspectRatio.cs" />
     <Compile Include="Assets\Scripts\ChangeSceneHome.cs" />
     <Compile Include="Assets\Scripts\CloudContentManager.cs" />
     <Compile Include="Assets\Scripts\CloudTrackableEventHandler.cs" />

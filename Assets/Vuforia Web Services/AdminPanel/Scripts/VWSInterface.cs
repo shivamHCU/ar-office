@@ -837,7 +837,7 @@ public class VWSInterface : MonoBehaviour
 
     public void openURL()
     {
-        Application.OpenURL("http://shivamgangwar.000webhostapp.com/uploadmedia/upload.html");
+        Application.OpenURL("http://shivamgangwar.000webhostapp.com/uploadmedia/upload.php");
     }
 
     void LogMessage(string message)

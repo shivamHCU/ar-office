@@ -51,6 +51,7 @@ public class CloudContentManager : MonoBehaviour
     VideoPlayer videoHolder;
     Sprite_renderer ImageHolder;
     UIQuestion QuestionsHolder;
+    public GameObject optionPanel;
 
     #region UNITY_MONOBEHAVIOUR_METHODS
 
@@ -64,6 +65,7 @@ public class CloudContentManager : MonoBehaviour
         videoHolder = GameObject.Find("VideoHolder").GetComponent<VideoPlayer>();
         ImageHolder = GameObject.Find("imageHolder").GetComponent<Sprite_renderer>();
         QuestionsHolder = GameObject.Find("QuestSet").GetComponent<UIQuestion>();
+        
 
         Augmentations = new Dictionary<int, GameObject>();
 
@@ -103,6 +105,10 @@ public class CloudContentManager : MonoBehaviour
 
             if (type == 3)
             {
+                if (!optionPanel.activeSelf)
+                {
+                    optionPanel.SetActive(true);
+                }
                 noOfQues = Convert.ToInt32(splitStrings[1]);
                 quizDomain = splitStrings[2];
                 Debug.Log("<color=red> FROM METADATA : type{" + type + "}, noOfQues{" + noOfQues + "}, quizDomain{ " + quizDomain + "}.</color>");

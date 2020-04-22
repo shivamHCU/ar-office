@@ -12,6 +12,8 @@ public class UIQuestion : MonoBehaviour
 
     public int totalNoOfQuestions;
     public String domain;
+    int score;
+    public GameObject optionPanel;
 
     public class Question
     {
@@ -20,7 +22,6 @@ public class UIQuestion : MonoBehaviour
         public string[] options;
         public int correctOptionNo;
         public string domain;
-
 
         public Question(string ques, int noOfOpt, string[] opt, int corrOptNo, string domain)
         {
@@ -44,6 +45,7 @@ public class UIQuestion : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        score = 0;
         optionsBtn = GameObject.Find("QuestSet").GetComponentsInChildren<Button>();
         questionText = GameObject.Find("QuestSet").GetComponentInChildren<TextMeshPro>();
     }
@@ -112,6 +114,7 @@ public class UIQuestion : MonoBehaviour
 
     private IEnumerator waitAndLoad(Button button)
     {
+        
         string btnName = button.name;
         char lastchar = btnName[btnName.Length - 1];
         int btnNo = lastchar - '0';
@@ -119,6 +122,7 @@ public class UIQuestion : MonoBehaviour
         if (btnNo == quesSet[questionNo].correctOptionNo)
         {
             button.image.color = Color.green;
+            score++;
             //theColor.normalColor = Color.green;//new Color(15, 205, 85);
             //button.colors = theColor;
         }
@@ -136,29 +140,40 @@ public class UIQuestion : MonoBehaviour
         {
             if (btnNo == 0 || btnNo == 1) {
                 questionNo += 1;
-                questionNo %= 5;
             }
         }
         else
         {
             questionNo += 1;
-            questionNo %= 5;
         }
-        
 
-        questionText.text = quesSet[questionNo].ques;
-
-        for (int i = 0; i < quesSet[questionNo].noOfOpt; i++)
+        if (questionNo < totalNoOfQuestions)
         {
-            optionsBtn[i].GetComponentInChildren<Text>().text = quesSet[questionNo].options[i];
-        }
+            questionText.text = quesSet[questionNo].ques;
 
-        if (quesSet[questionNo].noOfOpt == 2)
+            for (int i = 0; i < quesSet[questionNo].noOfOpt; i++)
+            {
+                optionsBtn[i].GetComponentInChildren<Text>().text = quesSet[questionNo].options[i];
+            }
+
+            if (quesSet[questionNo].noOfOpt == 2)
+            {
+                optionsBtn[2].GetComponentInChildren<Text>().text = "";
+                optionsBtn[3].GetComponentInChildren<Text>().text = "";
+            }
+
+            button.image.color = Color.gray;
+        }
+        else
         {
-            optionsBtn[2].GetComponentInChildren<Text>().text = "";
-            optionsBtn[3].GetComponentInChildren<Text>().text = "";
+            questionText.text = "Your score is : " + score + "/" + totalNoOfQuestions;
+            for (int i = 0; i < 4; i++)
+            {
+                optionsBtn[i].GetComponentInChildren<Text>().text = "";
+                
+            }
+            button.image.color = Color.gray;
+            optionPanel.SetActive(false);
         }
-
-        button.image.color = Color.gray;
     }
 }

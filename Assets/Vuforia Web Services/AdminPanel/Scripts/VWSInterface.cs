@@ -586,8 +586,6 @@ public class VWSInterface : MonoBehaviour
 		{
 			Destroy(tr.gameObject);
 		}
-
-        SceneManager.LoadScene("CloudRecoScene");
 	}
 
 	public void PickImage()
@@ -722,7 +720,7 @@ public class VWSInterface : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         form.AddField("domain", username + Domain.text);
-        UnityWebRequest www = UnityWebRequest.Post("http://shivamgangwar.000webhostapp.com/quiz/domainSummary.php", form);
+        UnityWebRequest www = UnityWebRequest.Post("https://shivamgangwar.000webhostapp.com/quiz/domainSummary.php", form);
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
@@ -848,4 +846,11 @@ public class VWSInterface : MonoBehaviour
 		btnObject.transform.localScale = Vector3.one;
 		LogPanelScroll.value = 0f;
 	}
+
+    public void Logout()
+    {
+        username = "";
+        Login.setUsername("");
+        SceneManager.LoadScene("CloudRecoScene");
+    }
 }

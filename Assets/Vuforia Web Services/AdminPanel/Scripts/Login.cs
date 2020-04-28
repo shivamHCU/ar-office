@@ -62,6 +62,10 @@ public class Login : MonoBehaviour
     }
 
     public static string getUsername() {
-        return username;
+        return Login.username;
+    }
+    public static void setUsername(string name)
+    {
+        Login.username = name;
     }
 }

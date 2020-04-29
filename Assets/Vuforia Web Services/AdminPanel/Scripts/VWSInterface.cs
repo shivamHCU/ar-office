@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Android;
 using UnityEngine.Networking;
 using UnityEngine.Video;
-using System.IO;
 
 public class VWSInterface : MonoBehaviour 
 {
@@ -25,7 +24,7 @@ public class VWSInterface : MonoBehaviour
     [Space]
     public InputField AugLinkField;
     public InputField NoOfQuestions;
-    public InputField Domain;
+    public Dropdown DomainDropDown;
     public InputField TargetMetaField;
     [Space]
     public Image TargetImage;
@@ -37,6 +36,7 @@ public class VWSInterface : MonoBehaviour
     public GameObject ImagePicker;
     [Space]
     public InputField Question;
+    public Dropdown AddDomainDropDown;
     public InputField Questiondomain;
     public InputField Option1;
     public InputField Option2;
@@ -45,12 +45,13 @@ public class VWSInterface : MonoBehaviour
     public InputField CorrectOption;
     public Text QuizAddMsg;
 
-    string username; 
-
+    string username;
+    
     void Start()
     {
         username = Login.getUsername() + "-";
         ConnectToDatabase();
+        StartCoroutine(LoadDomainListFromDB());
     }
 
     public void ConnectToDatabase()
@@ -78,7 +79,7 @@ public class VWSInterface : MonoBehaviour
         );
     }
 
-
+    
     public void LoadTargetList ()
 	{
 		LogMessage("Requesting target list...");
@@ -96,6 +97,25 @@ public class VWSInterface : MonoBehaviour
 		);
 	}
 
+    
+    /*
+     * #### Future Implimentation ####
+     * Functions to Deal With all DB Question (@QuizDomainSummaryPanel)
+     * 1. Add New Question (Done)
+     * 2. Update Question
+     * 3. Delete Question
+     * 4. Delete Domain
+     */
+    public void LoadQuestionList()
+    {
+          
+    }
+
+    void RebuildQuestionList(string[] questions)
+    {
+       
+    }
+
 
     void RebuildTargetList(string[] targets)
     {
@@ -106,7 +126,6 @@ public class VWSInterface : MonoBehaviour
 
         foreach (var targetID in targets)
         {
-            
             VWS.Instance.RetrieveTarget(targetID, response =>
             {
                 if (response.result_code == "Success")
@@ -208,15 +227,15 @@ public class VWSInterface : MonoBehaviour
             {
                 metadata += " " + NoOfQuestions.text;
             }
-
-            if (Domain.text.Equals(""))
+            string SelectedDomain = DomainDropDown.options[DomainDropDown.value].text;
+            if (SelectedDomain.Equals("Select Domain"))
             {
-                LogMessage("Please Enter the Domain!");
+                LogMessage("Please Select the Domain!");
                 return null;
             }
             else
             {
-                metadata += " " + username + Domain.text;
+                metadata += " " + username + SelectedDomain;
             }
         }
 
@@ -561,6 +580,7 @@ public class VWSInterface : MonoBehaviour
         }
 
         LogMessage("Updating Augmentation on Web Server...");
+        
         /*
         VWS.Instance.UpdateTargetImage(TargetIDField.text,
             TargetImage.sprite.texture,
@@ -588,7 +608,7 @@ public class VWSInterface : MonoBehaviour
 		}
 	}
 
-	public void PickImage()
+    public void PickImage()
 	{
 		AugmentationImage.sprite = EventSystem.current.currentSelectedGameObject.GetComponent<Image>().sprite;
 	}
@@ -651,7 +671,6 @@ public class VWSInterface : MonoBehaviour
         else{
             QuizDBPreview();
         }
-        
     }
 
 
@@ -688,7 +707,6 @@ public class VWSInterface : MonoBehaviour
             Debug.Log("Textture Downloaded!");
             Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100);
             AugmentationImage.sprite = sprite;
-
         }
     }
 
@@ -711,15 +729,20 @@ public class VWSInterface : MonoBehaviour
             AugmentationVideo.Pause();
         }
 
-        if (Domain.text != null) {
-            StartCoroutine(QuizSummary());
+        string SelectedDomain = DomainDropDown.options[DomainDropDown.value].text;
+
+        if (SelectedDomain.Equals("Select Domain")) {
+            LogMessage("Select or Add a new Domain.");
+        }
+        else {
+            StartCoroutine(QuizSummary(SelectedDomain));
         }
     }
 
-    IEnumerator QuizSummary()
+    IEnumerator QuizSummary(string str)
     {
         WWWForm form = new WWWForm();
-        form.AddField("domain", username + Domain.text);
+        form.AddField("domain", username + str);
         UnityWebRequest www = UnityWebRequest.Post("https://shivamgangwar.000webhostapp.com/quiz/domainSummary.php", form);
         yield return www.SendWebRequest();
 
@@ -731,37 +754,18 @@ public class VWSInterface : MonoBehaviour
         }
         else
         {
-            if (!Domain.text.Equals("ALL"))
+            if (www.downloadHandler.text.Equals("0"))
             {
-                if (www.downloadHandler.text.Equals("0"))
-                {
-                    AugmentationQuizDetails.text = "No such Domain Found!\nSearch with a input as \"ALL\" in InputField !!";
-                }
-                else
-                {
-                    string summary = "Domain Name : " + Domain.text + "\n";
-                    summary += "Total No of question for this domain present :" + www.downloadHandler.text;
-                    AugmentationQuizDetails.text = summary;
-                }
+                AugmentationQuizDetails.text = "No such Domain Found!\nSearch with a input as \"ALL\" in InputField !!";
             }
             else
             {
-                string response = www.downloadHandler.text;
-                string[] domainList = response.Split(';');
-                Debug.Log("\n 0 -" + response);
-                string printableDomain = "";
-                foreach (string s in domainList) {
-                    if (!s.Equals(""))
-                    {
-                        printableDomain += s.Substring(username.Length);
-                        printableDomain += "\n";
-                    }
-                }
-                AugmentationQuizDetails.text = printableDomain;
+                string summary = "Domain Name : " + str + "\n";
+                summary += "Total No of question for this domain present :" + www.downloadHandler.text;
+                AugmentationQuizDetails.text = summary;
             }
-        }
     }
-
+    }
 
     void ShowQuizAddMsg(string s, Color col)
     {
@@ -779,21 +783,85 @@ public class VWSInterface : MonoBehaviour
 
     public void AddNewQuestion()
     {
-        StartCoroutine(addQuiz());
+        StartCoroutine(AddQuizQues());
     }
 
-    IEnumerator addQuiz()
+    public void CheckDomainDropDownData() {
+        string DDvalue = AddDomainDropDown.options[AddDomainDropDown.value].text;
+        if(DDvalue.Equals("Add New Domain"))
+        {
+            Questiondomain.gameObject.SetActive(true);
+        }
+        else
+        {
+            if (Questiondomain.gameObject.activeSelf)
+            {
+                Questiondomain.gameObject.SetActive(false);
+            }
+        }
+
+    }
+
+    IEnumerator LoadDomainListFromDB()
     {
+        string url = "http://shivamgangwar.000webhostapp.com/quiz/getDomainList.php";
+        WWWForm form = new WWWForm();
+        form.AddField("username", username);
+        UnityWebRequest www = UnityWebRequest.Post(url, form);
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+            Debug.Log(www.downloadHandler.text);
+            LogMessage(www.downloadHandler.text);
+        }
+        else
+        {
+            string downloadedText = www.downloadHandler.text;
+            if (!downloadedText.Equals("0")) {
+                string data = www.downloadHandler.text;
+                string itemsDataString = data.Substring(1);
+                string[] wwwItems = itemsDataString.Split(';'); //the values in mysql db is picked in a single string and should have some marker so as to split
+                AddDomainDropDown.options.Clear();
+                DomainDropDown.options.Clear();
+                DomainDropDown.options.Add(new Dropdown.OptionData("Select Domain"));
+                foreach (string str in wwwItems)
+                { 
+                    if (!str.Equals("") && !str.Equals("0"))
+                    {
+                        string value = str.Substring(username.Length);
+                        AddDomainDropDown.options.Add(new Dropdown.OptionData(value));
+                        DomainDropDown.options.Add(new Dropdown.OptionData(value));
+                    }
+                }
+                AddDomainDropDown.options.Add(new Dropdown.OptionData("Add New Domain"));
+                if(AddDomainDropDown.options.Count > 1)
+                {
+                    Questiondomain.gameObject.SetActive(false);
+                }
+            }
+        }
+    }
+
+    IEnumerator AddQuizQues()
+    {
+        string domain = AddDomainDropDown.options[AddDomainDropDown.value].text;
+        if (Questiondomain.gameObject.activeSelf)
+        {
+            domain = Questiondomain.text;
+        }
+
         WWWForm form = new WWWForm();
         form.AddField("question", Question.text);
-        form.AddField("domain", username+Questiondomain.text);
+        form.AddField("domain", username+domain);
         form.AddField("option1", Option1.text);
         form.AddField("option2", Option2.text);
         form.AddField("option3", Option3.text);
         form.AddField("option4", Option4.text);
         form.AddField("correctOption", CorrectOption.text);
         
-        if (Question.text.Length>0 && Questiondomain.text.Length > 0 && Option1.text.Length > 0 && Option2.text.Length > 0 && Option3.text.Length > 0 && Option4.text.Length > 0 && CorrectOption.text.Length > 0)
+        if (Question.text.Length>0 && domain.Length > 0 && Option1.text.Length > 0 && Option2.text.Length > 0 && Option3.text.Length > 0 && Option4.text.Length > 0 && CorrectOption.text.Length > 0)
         {
             UnityWebRequest www = UnityWebRequest.Post("https://shivamgangwar.000webhostapp.com/quiz/addQues.php", form);
             yield return www.SendWebRequest();
@@ -810,6 +878,11 @@ public class VWSInterface : MonoBehaviour
                 Option3.text = "";
                 Option4.text = "";
                 CorrectOption.text = "";
+                if (Questiondomain.gameObject.activeSelf)
+                {
+                    StartCoroutine(LoadDomainListFromDB());
+                }
+                AddDomainDropDown.value = 0;
             }
             else if (www.downloadHandler.text.Equals("1"))
             {

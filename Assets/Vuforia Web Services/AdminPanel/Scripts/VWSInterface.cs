@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Android;
 using UnityEngine.Networking;
 using UnityEngine.Video;
+using System;
 
 public class VWSInterface : MonoBehaviour 
 {
@@ -44,7 +45,15 @@ public class VWSInterface : MonoBehaviour
     public InputField Option4;
     public InputField CorrectOption;
     public Text QuizAddMsg;
-
+    [Space]
+    public Transform QuestionListContent;
+    public GameObject QuestionListPrefeb;
+    public Text SummaryDomainName;
+    public Text SummaryNoOfQuestion;
+    public Text SummaryQuestionPreview;
+    public Text SummaryQuestionId;
+    public GameObject QuesSummaryPanel;
+    
     string username;
     
     void Start()
@@ -97,25 +106,182 @@ public class VWSInterface : MonoBehaviour
 		);
 	}
 
-    
+
     /*
      * #### Future Implimentation ####
      * Functions to Deal With all DB Question (@QuizDomainSummaryPanel)
      * 1. Add New Question (Done)
-     * 2. Update Question
-     * 3. Delete Question
-     * 4. Delete Domain
+     * 2. Load Question List
+     * 3. Update Question
+     * 4. Delete Question
+     * 5. Delete Domain
+     * 6. Clear Summary data
      */
+
+    public class QuestionClass
+    {
+        public int id;
+        public string ques;
+        public int noOfOpt;
+        public string[] options;
+        public int correctOptionNo;
+        public string domain;
+
+        public QuestionClass(int id, string ques, int noOfOpt, string[] opt, int corrOptNo, string domain)
+        {
+            this.id = id;
+            this.ques = ques;
+            this.noOfOpt = noOfOpt;
+            options = opt;
+            correctOptionNo = corrOptNo;
+            this.domain = domain;
+        }
+    }
+
     public void LoadQuestionList()
     {
-          
+        StartCoroutine(LoadQuestionFromDatabase());
     }
 
-    void RebuildQuestionList(string[] questions)
+    IEnumerator LoadQuestionFromDatabase()
     {
-       
+        string link = "https://shivamgangwar.000webhostapp.com/quiz/fetchAll.php";
+        string quesdomain = DomainDropDown.options[DomainDropDown.value].text;
+        // Create a form object for domain and noOfQuestion to the server
+        WWWForm form = new WWWForm();
+        form.AddField("domain", username+quesdomain);
+        // Create a download object
+        var download = UnityWebRequest.Post(link, form);
+        // Wait until the download is done
+        yield return download.SendWebRequest();
+
+        if (download.isNetworkError || download.isHttpError)
+        {
+            LogMessage("Error downloading: " + download.error);
+        }
+        else
+        {
+            string downloadString = download.downloadHandler.text;
+            string[] dstr = downloadString.Split(';');
+            int totalNoOfQuestions = Int32.Parse(dstr[0]);
+            QuestionClass[] Questions = new QuestionClass[totalNoOfQuestions];
+            for (int i = 1; i <= totalNoOfQuestions; i++)
+            {
+                string x = dstr[i];
+                string[] quesset = x.Split(',');
+                int id = Int32.Parse(quesset[0]);
+                int nop = Int32.Parse(quesset[2]);
+                int corop = Int32.Parse(quesset[7]);
+                Questions[i-1] = new QuestionClass(id, quesset[1], nop, new string[4] { quesset[3], quesset[4], quesset[5], quesset[6] }, corop, quesset[8]);
+            }
+            RebuildQuestionList(Questions);
+        }
     }
 
+    public void DeleteQuestion()
+    {
+        StartCoroutine(DeleteQuestionFromDatabase());
+    }
+
+
+    IEnumerator DeleteQuestionFromDatabase()
+    {
+        string link = "https://shivamgangwar.000webhostapp.com/quiz/DeleteWithId.php";
+        // Create a form object for domain and noOfQuestion to the server
+        WWWForm form = new WWWForm();
+        string s = SummaryQuestionId.text;
+        if (s.Equals(""))
+        {
+            SummaryQuestionPreview.text = "Please Select a question!";
+            SummaryQuestionPreview.color = Color.red;
+            StartCoroutine(RemoveAfterSeconds(3, SummaryQuestionPreview));
+
+        }
+        else
+        {
+            form.AddField("quesid", Int32.Parse(SummaryQuestionId.text));
+            // Create a download object
+            var download = UnityWebRequest.Post(link, form);
+            // Wait until the download is done
+            yield return download.SendWebRequest();
+
+            if (download.isNetworkError || download.isHttpError)
+            {
+                LogMessage("Error downloading: " + download.error);
+            }
+            else
+            {
+                LoadQuestionList();
+                QuizDBPreview();
+                SummaryQuestionPreview.text = "";
+                SummaryQuestionId.text = "";
+            }
+        }
+    }
+
+
+    public void DeleteDomain()
+    {
+        StartCoroutine(DeleteDomainFromDatabase());
+    }
+
+
+    IEnumerator DeleteDomainFromDatabase()
+    {
+        string link = "https://shivamgangwar.000webhostapp.com/quiz/DeleteWithDomainName.php";
+        // Create a form object for domain and noOfQuestion to the server
+        WWWForm form = new WWWForm();
+        
+        form.AddField("domain", username+SummaryDomainName.text);
+        // Create a download object
+        var download = UnityWebRequest.Post(link, form);
+        // Wait until the download is done
+        yield return download.SendWebRequest();
+
+        if (download.isNetworkError || download.isHttpError)
+        {
+            LogMessage("Error downloading: " + download.error);
+        }
+        else
+        {
+            StartCoroutine(LoadDomainListFromDB());
+            AddDomainDropDown.value = 0;
+            DomainDropDown.value = 0;
+            SummaryDomainName.text = "--";
+            SummaryNoOfQuestion.text = "--";
+            SummaryQuestionPreview.text = "";
+            SummaryQuestionId.text = "";
+            foreach (Transform tr in TargetListContent)
+            {
+                Destroy(tr.gameObject);
+            }
+            QuesSummaryPanel.SetActive(false);
+        }
+
+    }
+
+
+    void RebuildQuestionList(QuestionClass[] questions)
+    {
+        foreach (Transform tr in QuestionListContent)
+        {
+            Destroy(tr.gameObject);
+        }
+
+        foreach (QuestionClass targetQues in questions)
+        {
+            GameObject btnObject = Instantiate(QuestionListPrefeb, QuestionListContent);
+            btnObject.transform.localScale = Vector3.one;
+            btnObject.GetComponentInChildren<Text>().text = targetQues.ques;
+            btnObject.GetComponent<Button>().onClick.AddListener(() => UpdateQuesPreviewField(targetQues));
+        }
+    }
+    void UpdateQuesPreviewField(QuestionClass ques)
+    {
+        SummaryQuestionPreview.text = ques.ques;
+        SummaryQuestionId.text = ques.id.ToString();
+    }
+    
 
     void RebuildTargetList(string[] targets)
     {
@@ -570,36 +736,6 @@ public class VWSInterface : MonoBehaviour
 		);
 	}
 
-
-    public void UpdateAugmentation()
-    {
-        if (string.IsNullOrEmpty(TargetIDField.text))
-        {
-            LogMessage("Please specify target id");
-            return;
-        }
-
-        LogMessage("Updating Augmentation on Web Server...");
-        
-        /*
-        VWS.Instance.UpdateTargetImage(TargetIDField.text,
-            TargetImage.sprite.texture,
-            response =>
-            {
-                if (response.result_code == "Success")
-                {
-                    LogMessage("Target image updated");
-                }
-                else
-                {
-                    LogMessage(response.result_code);
-                }
-            }
-        );
-        */
-    }
-
-
     public void ClearLog()
 	{
 		foreach (Transform tr in LogPanelContent)
@@ -756,13 +892,12 @@ public class VWSInterface : MonoBehaviour
         {
             if (www.downloadHandler.text.Equals("0"))
             {
-                AugmentationQuizDetails.text = "No such Domain Found!\nSearch with a input as \"ALL\" in InputField !!";
+                LogMessage("Network/Server error ");
             }
             else
             {
-                string summary = "Domain Name : " + str + "\n";
-                summary += "Total No of question for this domain present :" + www.downloadHandler.text;
-                AugmentationQuizDetails.text = summary;
+                SummaryDomainName.text = str;
+                SummaryNoOfQuestion.text = www.downloadHandler.text;
             }
     }
     }
@@ -778,7 +913,7 @@ public class VWSInterface : MonoBehaviour
     {
         yield return new WaitForSeconds(seconds);
         obj.text = "";
-        QuizAddMsg.color = Color.black;
+        obj.color = Color.black;
     }
 
     public void AddNewQuestion()
@@ -804,7 +939,7 @@ public class VWSInterface : MonoBehaviour
 
     IEnumerator LoadDomainListFromDB()
     {
-        string url = "http://shivamgangwar.000webhostapp.com/quiz/getDomainList.php";
+        string url = "https://shivamgangwar.000webhostapp.com/quiz/getDomainList.php";
         WWWForm form = new WWWForm();
         form.AddField("username", username);
         UnityWebRequest www = UnityWebRequest.Post(url, form);
@@ -908,7 +1043,7 @@ public class VWSInterface : MonoBehaviour
 
     public void openURL()
     {
-        Application.OpenURL("http://shivamgangwar.000webhostapp.com/uploadmedia/upload.php");
+        Application.OpenURL("https://shivamgangwar.000webhostapp.com/uploadmedia/upload.php");
     }
 
     void LogMessage(string message)

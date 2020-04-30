@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Networking;
 using System;
-using System.Net;
 
 public class UIQuestion : MonoBehaviour
 {
@@ -52,7 +51,7 @@ public class UIQuestion : MonoBehaviour
 
 
     public IEnumerator LoadQuestionFromDatabase() {
-        String link = "https://shivamgangwar.000webhostapp.com/quiz/";
+        string link = "https://shivamgangwar.000webhostapp.com/quiz/";
         // Create a form object for domain and noOfQuestion to the server
         WWWForm form = new WWWForm();
         form.AddField("domain", domain);

@@ -20,7 +20,7 @@ public class StorageImageLoader : MonoBehaviour
         Debug.Log("FileLoaderStart()");
         string path=null;
         #if UNITY_ANDROID
-            path = Application.persistentDataPath + "/";
+            path = Application.persistentDataPath + "/"; //get persistent data path
         #endif
         #if UNITY_EDITOR
             path = "C://MyTemp/";
@@ -34,8 +34,8 @@ public class StorageImageLoader : MonoBehaviour
         foreach (FileInfo file in fileInfo)
         {
             Debug.Log(file.Name);
-            GameObject btnObject = Instantiate(ImageButton);
-            StartCoroutine(loadSpriteImageFromUrl(btnObject.GetComponentInChildren<Image>(), file.Name));
+            GameObject btnObject = Instantiate(ImageButton); //create a reference to the button game object
+            StartCoroutine(loadSpriteImageFromUrl(btnObject.GetComponentInChildren<Image>(), file.Name)); //load sprite from the image child in the game object
             btnObject.transform.SetParent(ContentImageHolder);
         }
 
@@ -47,14 +47,14 @@ public class StorageImageLoader : MonoBehaviour
 
         //make the url first
         string URL=null;
-        #if UNITY_ANDROID
+        #if UNITY_ANDROID  //if using in android
                 URL = "file://" + Application.persistentDataPath + "/" + name;
         #endif
-        #if UNITY_EDITOR
+        #if UNITY_EDITOR //if using in unity editor
                 URL = "file:///C:/MyTemp/" + name;
         #endif
         
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture(URL);
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture(URL); //create a unitywebrequest object texture from the path 
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
@@ -64,10 +64,10 @@ public class StorageImageLoader : MonoBehaviour
         else
         {
             Debug.Log("Download Succesfull!");
-            Texture2D texture = new Texture2D(1, 1);
-            texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            Texture2D texture = new Texture2D(1, 1); //create empty texture
+            texture = ((DownloadHandlerTexture)www.downloadHandler).texture; //download the online texture and overwrite the created empty texture
 
-            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));  //create sprite with the required texture
 
             ImgHolder.sprite = sprite;
         }

@@ -22,8 +22,8 @@ public class Sprite_renderer : MonoBehaviour
     {
         Debug.Log("< color = red > Running the coroutine with url = </ color > "+ URL);
 
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture(URL);
-        yield return www.SendWebRequest();
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture(URL);  //make a unity web request texture and retrieve the texture from the url provided
+        yield return www.SendWebRequest(); //wait until return of data from the request
 
         if (www.isNetworkError || www.isHttpError)
         {
@@ -32,8 +32,8 @@ public class Sprite_renderer : MonoBehaviour
         else
         {
 
-            Texture2D texture = new Texture2D(1, 1);
-            texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            Texture2D texture = new Texture2D(1, 1); //create empty texture
+            texture = ((DownloadHandlerTexture)www.downloadHandler).texture;  //download texture from source and retrieve it then replace the created empty texture
 
             //float x = (texture.height / 635.0f) * 100.0f;
             //1.5827 |              
@@ -46,7 +46,7 @@ public class Sprite_renderer : MonoBehaviour
 
             Debug.Log(texture.height);
             Debug.Log(texture.width);
-            x = 1.0122f * texture.width - 10.647f;
+            x = 1.0122f * texture.width - 10.647f; //Two point form of straight line using different widths of the images
             Debug.Log(x);
 
 
@@ -59,9 +59,9 @@ public class Sprite_renderer : MonoBehaviour
             //parent.GetComponent<Transform>().localScale += new Vector3(0f,yScale, 0f);
 
 
-            Sprite sprite = Sprite.Create(texture, new Rect(0,0, texture.width, texture.height), new Vector2(0.5f, 0.5f),x);
+            Sprite sprite = Sprite.Create(texture, new Rect(0,0, texture.width, texture.height), new Vector2(0.5f, 0.5f),x);  //create a new sprite in accordance with the downloaded texture and using the texture height and width.
 
-            imageToDisplay.sprite = sprite;
+            imageToDisplay.sprite = sprite;  //replace the existing sprite with the created sprite
 
             //=1800*0.0002492f
         }

@@ -26,7 +26,7 @@ public class VideoPlayerController : MonoBehaviour
         StartCoroutine("PlayVideo");
     }
 
-    IEnumerator PlayVideo() {
+    IEnumerator PlayVideo() { // play video after waiting for several seconds then once the player is ready replace the texture with that of the video player
         videoPlayer.Prepare();
         WaitForSeconds waitForSeconds = new WaitForSeconds(1);
         while (!videoPlayer.isPrepared) {

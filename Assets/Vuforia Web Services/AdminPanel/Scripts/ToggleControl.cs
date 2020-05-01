@@ -13,14 +13,14 @@ public class ToggleControl : MonoBehaviour
     public Image imageBtnBG;
     public Image VideoBtnBG;
     public Image QuizBtnBG;
-    public GameObject AugImage;
-    public GameObject AugVideo;
-    public GameObject AugQuiz;
+    public GameObject AugImage;   //Augmented Image
+    public GameObject AugVideo;  //Augmented Video
+    public GameObject AugQuiz;  //Quiz
     public GameObject PlayButton;
     public GameObject PauseButton;
     public GameObject AddQuesButton;
-    public GameObject QuesMetaInput;
-    public GameObject MetaLinkInput;
+    public GameObject QuesMetaInput;  //Input Question Meta data
+    public GameObject MetaLinkInput; // Input link Metadat for Image or Video
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +34,7 @@ public class ToggleControl : MonoBehaviour
     {
         if (isImage)
         {
-            imageBtnBG.color = Color.green;
+            imageBtnBG.color = Color.green;  //Set Image button background colour to green which signifies it being selected
             VideoBtnBG.color = Color.white;
             QuizBtnBG.color = Color.white;
             if (AugVideo.activeSelf)
@@ -74,7 +74,7 @@ public class ToggleControl : MonoBehaviour
         else if (isVideo)
         {
             imageBtnBG.color = Color.white;
-            VideoBtnBG.color = Color.green;
+            VideoBtnBG.color = Color.green;//Set Video button background colour to green which signifies it being selected
             QuizBtnBG.color = Color.white;
             if (!AugVideo.activeSelf)
             {
@@ -113,7 +113,7 @@ public class ToggleControl : MonoBehaviour
         else if (isQuiz) {
             imageBtnBG.color = Color.white;
             VideoBtnBG.color = Color.white;
-            QuizBtnBG.color = Color.green;
+            QuizBtnBG.color = Color.green; //Set Quiz button background colour to green which signifies it being selected
             if (AugVideo.activeSelf)
             {
                 AugVideo.SetActive(false);

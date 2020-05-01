@@ -14,7 +14,7 @@ public class UIQuestion : MonoBehaviour
     int score;
     public GameObject optionPanel;
 
-    public class Question
+    public class Question  //create Question class with parameters  :- Question text, No of Options, option choices, correct Option Number, Domain 
     {
         public string ques;
         public int noOfOpt;
@@ -80,7 +80,7 @@ public class UIQuestion : MonoBehaviour
                 quesset = x.Split(',');
                 int nop = Convert.ToInt32(quesset[2][0] - '0');
                 int corop = Convert.ToInt32(quesset[7][0] - '0');
-                quesSet[i] = new Question(quesset[1], nop, new string[4] { quesset[3], quesset[4], quesset[5], quesset[6] }, corop, quesset[8]);
+                quesSet[i] = new Question(quesset[1], nop, new string[4] { quesset[3], quesset[4], quesset[5], quesset[6] }, corop, quesset[8]);  //this is based on how our questions and the options are set in the web server
             }
 
            
@@ -115,7 +115,7 @@ public class UIQuestion : MonoBehaviour
     {
         
         string btnName = button.name;
-        char lastchar = btnName[btnName.Length - 1];
+        char lastchar = btnName[btnName.Length - 1];  //since options are named as option1 , option2 etc therefore the last char of the name signies the option number and is used to check if the chosen option is correct or not
         int btnNo = lastchar - '0';
 
         if (btnNo == quesSet[questionNo].correctOptionNo)
@@ -148,7 +148,7 @@ public class UIQuestion : MonoBehaviour
 
         if (questionNo < totalNoOfQuestions)
         {
-            questionText.text = quesSet[questionNo].ques;
+            questionText.text = quesSet[questionNo].ques; //if wuestion number is less than total number of questions then shift to the next question in line otherwise show the score
 
             for (int i = 0; i < quesSet[questionNo].noOfOpt; i++)
             {

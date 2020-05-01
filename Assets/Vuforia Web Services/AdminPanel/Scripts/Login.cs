@@ -6,10 +6,10 @@ using UnityEngine.Networking;
 
 public class Login : MonoBehaviour
 {
-    public InputField nameField;
-    public InputField passwordField;
-    public Text Errmsgfield;
-    public Button submitButton;
+    public InputField nameField;    //username
+    public InputField passwordField; //password
+    public Text Errmsgfield; //error message
+    public Button submitButton;  //login button
 
     private static string username;
 
@@ -24,22 +24,22 @@ public class Login : MonoBehaviour
         form.AddField("name", nameField.text);
         form.AddField("password", passwordField.text);
 
-        UnityWebRequest www = UnityWebRequest.Post("https://shivamgangwar.000webhostapp.com/sqlconnect/login.php", form);
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
+        UnityWebRequest www = UnityWebRequest.Post("https://shivamgangwar.000webhostapp.com/sqlconnect/login.php", form);   //connect to database with a form containing username and pwd
+        yield return www.SendWebRequest();  //Wait for return of data from the server
+         
+        if (www.isNetworkError || www.isHttpError) 
         {
             Debug.Log(www.error);
             Debug.Log(www.downloadHandler.text);
-            Errmsgfield.text = www.downloadHandler.text;
+            Errmsgfield.text = www.downloadHandler.text;   //get error message
         }
 
-        else if (www.downloadHandler.text == "0")
+        else if (www.downloadHandler.text == "0")   //if php echos a "0" signifying all was correct
         {
             Debug.Log("loggedin");
-            Errmsgfield.text = www.downloadHandler.text;
-            DBManager.username = nameField.text;
-            username = nameField.text;
+            Errmsgfield.text = www.downloadHandler.text; //download error message
+            DBManager.username = nameField.text;  
+            username = nameField.text;  //set username for display
             UnityEngine.SceneManagement.SceneManager.LoadScene("AdminPanelVWS");
 
         }
@@ -50,7 +50,7 @@ public class Login : MonoBehaviour
         }
 
         Debug.Log(www.downloadHandler.text);
-        Errmsgfield.text = www.downloadHandler.text;
+        Errmsgfield.text = www.downloadHandler.text;  //show error message
     }
 
 

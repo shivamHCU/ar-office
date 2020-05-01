@@ -118,7 +118,8 @@ public class VWSInterface : MonoBehaviour
      * 6. Clear Summary data
      */
 
-    public class QuestionClass
+    public class QuestionClass      //Create Question Class that will make it easier to contain all questions has variables :- Questions, no of options, options , correct option number out of 4 maximum choices, Domain of the question.
+
     {
         public int id;
         public string ques;
@@ -145,7 +146,7 @@ public class VWSInterface : MonoBehaviour
 
     IEnumerator LoadQuestionFromDatabase()
     {
-        string link = "https://shivamgangwar.000webhostapp.com/quiz/fetchAll.php";
+        string link = "https://shivamgangwar.000webhostapp.com/quiz/fetchAll.php"; //link to quiz database and get all the data there
         string quesdomain = DomainDropDown.options[DomainDropDown.value].text;
         // Create a form object for domain and noOfQuestion to the server
         WWWForm form = new WWWForm();
@@ -164,15 +165,15 @@ public class VWSInterface : MonoBehaviour
             string downloadString = download.downloadHandler.text;
             string[] dstr = downloadString.Split(';');
             int totalNoOfQuestions = Int32.Parse(dstr[0]);
-            QuestionClass[] Questions = new QuestionClass[totalNoOfQuestions];
-            for (int i = 1; i <= totalNoOfQuestions; i++)
+            QuestionClass[] Questions = new QuestionClass[totalNoOfQuestions]; // create an array of objects of question class  according to the total no of questions
+            for (int i = 1; i <= totalNoOfQuestions; i++)  //populate the array through the loop
             {
                 string x = dstr[i];
                 string[] quesset = x.Split(',');
                 int id = Int32.Parse(quesset[0]);
                 int nop = Int32.Parse(quesset[2]);
                 int corop = Int32.Parse(quesset[7]);
-                Questions[i-1] = new QuestionClass(id, quesset[1], nop, new string[4] { quesset[3], quesset[4], quesset[5], quesset[6] }, corop, quesset[8]);
+                Questions[i-1] = new QuestionClass(id, quesset[1], nop, new string[4] { quesset[3], quesset[4], quesset[5], quesset[6] }, corop, quesset[8]);  //Generate all Questions and populate the list one by one
             }
             RebuildQuestionList(Questions);
         }
@@ -298,7 +299,7 @@ public class VWSInterface : MonoBehaviour
                 {
                     string name = response.target_record.name;
                     string[] splitedName = name.Split('-');
-                    if (splitedName[0].Equals(username.Substring(0, username.Length - 1)))
+                    if (splitedName[0].Equals(username.Substring(0, username.Length - 1)))   //If the Login Username matches the username written in the name field of the target  then show them else skip
                     {
                         GameObject btnObject = Instantiate(TargetListPrefab, TargetListContent);
                         btnObject.transform.localScale = Vector3.one;
@@ -343,13 +344,13 @@ public class VWSInterface : MonoBehaviour
     public string GenerateMetaData() {
         int type = ToggleControl.SelectedAug();
         string metadata = "" + type;
-        if (type == 1 || type == 2)
+        if (type == 1 || type == 2)     //Type 1 corresponds to Images and Type 2 corresponds to Videos while Type 3 Corresponds to Quiz
         {
             if (!AugLinkField.text.Equals(""))
             {
                 if (type == 1)
                 {
-                    if (!AugLinkField.text.EndsWith(".jpg") && !AugLinkField.text.EndsWith(".png") && !AugLinkField.text.EndsWith(".jpeg"))
+                    if (!AugLinkField.text.EndsWith(".jpg") && !AugLinkField.text.EndsWith(".png") && !AugLinkField.text.EndsWith(".jpeg"))    //check if the image ends with .jpeg or .png
                     {
                         LogMessage("Please provide a downloadable link of image of type (jpg/jpeg/png)");
                         return null;
@@ -357,13 +358,13 @@ public class VWSInterface : MonoBehaviour
                 }
                 else
                 {
-                    if (!AugLinkField.text.EndsWith(".mp4") && !AugLinkField.text.EndsWith(".mkv"))
+                    if (!AugLinkField.text.EndsWith(".mp4") && !AugLinkField.text.EndsWith(".mkv"))     // check if tvideo ends with .mkv or .mp4
                     {
                         LogMessage("Please provide a downloadable link of video of type (.mp4/.mkv)");
                         return null;
                     }
                 }
-                metadata += " " + AugLinkField.text;
+                metadata += " " + AugLinkField.text;  //SetMetaData Metadata accordingly
                 Debug.Log(metadata);
             }
             else
@@ -457,7 +458,7 @@ public class VWSInterface : MonoBehaviour
 		LogMessage("Requesting target summary...");
 		VWS.Instance.RetrieveTargetSummary(TargetIDField.text, response =>
 			{
-				if (response.result_code == "Success")
+				if (response.result_code == "Success")  //If successful get various details and display in the panel
 				{
 					string log = "DB Name: " + response.database_name + "\n";
 					log += "Name: " + response.target_name + "\n";
@@ -512,7 +513,7 @@ public class VWSInterface : MonoBehaviour
         }
         TargetMetaField.text = metadata;
 
-        VWS.Instance.AddTarget(username+TargetNameField.text,
+        VWS.Instance.AddTarget(username+TargetNameField.text,  //Add target using the given funtion 
 			float.Parse(TargetWidthField.text),
 			TargetImage.sprite.texture,
 			TargetFlagToggle.isOn,
@@ -599,6 +600,7 @@ public class VWSInterface : MonoBehaviour
 		);
 	}
 
+    //The following functions modify a single value of the whole admin panel like the target's name, width, image or metadata
 	public void UpdateTargetName ()
 	{
 		if(string.IsNullOrEmpty(TargetIDField.text))
@@ -743,12 +745,12 @@ public class VWSInterface : MonoBehaviour
 			Destroy(tr.gameObject);
 		}
 	}
-
-    public void PickImage()
-	{
+    
+    public void PickImage()  //image picker this will initialize when we press the top right square.
+    {
 		AugmentationImage.sprite = EventSystem.current.currentSelectedGameObject.GetComponent<Image>().sprite;
 	}
-
+    //make a duplicate texture so that it may be accessed from a code and will be easily resized or reformated
     Texture2D DuplicateTexture(Texture2D source)
     {
         RenderTexture renderTex = RenderTexture.GetTemporary(
@@ -756,7 +758,7 @@ public class VWSInterface : MonoBehaviour
                     source.height,
                     0,
                     RenderTextureFormat.Default,
-                    RenderTextureReadWrite.Linear);
+                    RenderTextureReadWrite.Linear); //make a temporary texture of the source height and width
 
         Graphics.Blit(source, renderTex);
         RenderTexture previous = RenderTexture.active;
@@ -785,7 +787,7 @@ public class VWSInterface : MonoBehaviour
                 {
                     texture = NativeGallery.LoadImageAtPath(path);
                     Texture2D ReadableTexture = DuplicateTexture(texture);
-                    Sprite sprite = Sprite.Create(ReadableTexture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100);
+                    Sprite sprite = Sprite.Create(ReadableTexture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100); // create a sprite with the data of the downloaded image 
                     TargetImg.sprite = sprite;
                 }
             });
